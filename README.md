@@ -18,16 +18,15 @@ Welcome to the URL Manager project, a powerful web application designed to simpl
    - Create custom short links for branding and personalization.
 
 5. **Link Expiry and Tracking:**
-   - Set link expiration dates for enhanced control.
    - Track the lifespan of each URL for monitoring purposes.
 
 ## Technology Stack
 
 - **Frontend:**
-  - Developed using React.js for a responsive and dynamic user interface.
+  - Developed using Next.js for a responsive and dynamic user interface.
 
 - **Backend:**
-  - Powered by Node.js to handle server-side logic, API requests, and database interactions.
+  - Powered by Next.js to handle server-side logic, API requests, and database interactions.
 
 - **Database:**
   - MongoDB is employed for efficient and scalable data storage.
