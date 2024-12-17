@@ -1,5 +1,3 @@
-**URL Manager - Readme**
-
 ## Overview
 
 Welcome to the URL Manager project, a powerful web application designed to simplify URL management by providing URL shortening capabilities and comprehensive analytics on link performance. This project employs a technology stack consisting of React.js for the frontend, Node.js for the backend, and MongoDB for efficient and scalable data storage.
@@ -40,12 +38,12 @@ To get started with the URL Manager project, follow these steps:
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-username/url-manager.git
+   git clone https://github.com/your-username/UrlHub.git
    ```
 
 2. Navigate to the project directory:
    ```bash
-   cd url-manager
+   cd UrlHub
    ```
 
 3. Install dependencies:
