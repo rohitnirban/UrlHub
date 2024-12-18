@@ -29,6 +29,7 @@ export default function ShortUrlRedirect({ params }: Props) {
     const [isLoading, setIsLoading] = useState(true);
     const [urlData, setUrlData] = useState<UrlData | null>(null);
 
+
     useEffect(() => {
         let isMounted = true;
 
@@ -74,7 +75,7 @@ export default function ShortUrlRedirect({ params }: Props) {
                     if (isMounted) {
                         router.push(urlEntry.originalUrl);
                     }
-                }, 2000); // Delay the redirect
+                }, 1000); // Delay the redirect
 
             } catch (error) {
                 console.error('Error fetching URL data:', error);

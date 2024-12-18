@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Redirecting...',
-  description: 'Redirecting...'
+  title: 'UrlHub Short URL',
+  description: 'This is a short URL service',
 };
 
 export default function DashboardLayout({
