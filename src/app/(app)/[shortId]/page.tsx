@@ -14,12 +14,13 @@ interface Props {
 
 interface UrlData {
     originalUrl: string;
-    metaDescription: string;
-    metaImageUrl: string;
     shortUrl: string;
     urlId: string;
-    title: string;
-    icon: string;
+    metaDescription?: string;
+    metaImageUrl?: string;
+    title?: string;
+    icon?: string;
+    isFree?: boolean; // Add this to identify if it's a free URL
 }
 
 export default function ShortUrlRedirect({ params }: Props) {
@@ -33,8 +34,9 @@ export default function ShortUrlRedirect({ params }: Props) {
 
         async function fetchUrl() {
             try {
-                // Fetch URL data
+                console.log("Short ID", shortId);
                 const response = await axios.get(`/api/v1/url/${shortId}`);
+                console.log(response.data);
 
                 if (!isMounted) return;
 
@@ -46,14 +48,13 @@ export default function ShortUrlRedirect({ params }: Props) {
                 const urlEntry = response.data;
                 setUrlData(urlEntry);
 
-                // Delay the redirect
-                setTimeout(() => {
-                    if (isMounted) {
-                        router.push(urlEntry.originalUrl);
-                    }
-                }, 2000); // Wait for 2 seconds before redirecting
+                // If it's a free URL, just redirect without tracking
+                if (urlEntry.isFree) {
+                    router.push(urlEntry.originalUrl);
+                    return;
+                }
 
-                // Fetch IP Address
+                // If it's a premium URL, handle statistics and then redirect
                 const ipResponse = await axios.get(`https://ipinfo.io/json?token=${process.env.NEXT_PUBLIC_IPINFO_TOKEN}`);
                 const ipAddress = ipResponse.data.ip;
 
@@ -68,10 +69,13 @@ export default function ShortUrlRedirect({ params }: Props) {
                     },
                 });
 
-                // Redirect to the original URL
-                if (isMounted) {
-                    router.push(urlEntry.originalUrl);
-                }
+                // Redirect after a delay (2 seconds for better UX)
+                setTimeout(() => {
+                    if (isMounted) {
+                        router.push(urlEntry.originalUrl);
+                    }
+                }, 2000); // Delay the redirect
+
             } catch (error) {
                 console.error('Error fetching URL data:', error);
                 if (isMounted) {

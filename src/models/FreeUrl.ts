@@ -4,6 +4,7 @@ export interface FreeUrl extends Document {
     originalUrl: string;
     shortUrl: string;
     urlId: string;
+    isFree: boolean;
 }
 
 const FreeUrlSchema: Schema<FreeUrl> = new Schema(
@@ -24,9 +25,13 @@ const FreeUrlSchema: Schema<FreeUrl> = new Schema(
             unique: true,
             maxlength: 12,
         },
+        isFree: {
+            type: Boolean,
+            default: true,
+        },
     },
     {
-        timestamps:true
+        timestamps: true
     }
 );
 

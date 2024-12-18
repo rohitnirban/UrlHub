@@ -23,14 +23,11 @@ export async function POST(request: Request) {
             return handleError("Invalid URL Format", 400);
         }
 
-        // Fetch all URLs from the database for this user
         const url = await FreeUrlModel.findOne({ originalUrl });
-
 
         if (url) {
             return handleError("URL already exists", 400);
         }
-
 
         const shortId = generateShortId().toLowerCase();
 
@@ -41,6 +38,7 @@ export async function POST(request: Request) {
             originalUrl,
             shortUrl,
             urlId: shortId,
+            isFree: true
         });
 
         await newUrl.save();
