@@ -22,3 +22,6 @@
 
 ### Changed
 - Free short URL functionality now works.
+
+### Added
+- Added sitemap
