@@ -17,3 +17,8 @@
 - Option to delete links.
 - OS usage distribution with different colors.
 - Meta tags for better sharing experience on WhatsApp, Facebook, etc.
+
+## [1.0.2] - 2024-12-19
+
+### Changed
+- Free short URL functionality now works.
