@@ -27,19 +27,19 @@ const chartConfig = {
   visitors: {
     label: "Visitors",
   },
-  chrome: {
+  linux: {
     label: "Chrome",
     color: "#000dff",
   },
-  safari: {
+  windows: {
     label: "Safari",
     color: "#010bcd",
   },
-  firefox: {
+  macOs: {
     label: "Firefox",
     color: "#0009ab",
   },
-  edge: {
+  android: {
     label: "Edge",
     color: "#626aff",
   },

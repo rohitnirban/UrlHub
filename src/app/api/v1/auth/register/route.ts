@@ -87,7 +87,7 @@ export async function POST(request: Request) {
         console.log(verifyCode);
 
         await resend.emails.send({
-            from: 'no-reply@urlhub.rohitnirban.com',
+            from: 'no-reply@urhb.in',
             to: email,
             subject: 'UrlHub Verification Code',
             react: VerifyEmail({ verifyCode }),

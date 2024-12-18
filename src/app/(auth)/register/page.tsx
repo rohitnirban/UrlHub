@@ -15,7 +15,6 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
-import Image from "next/image"
 
 const Page = () => {
     const [username, setUsername] = useState('');
@@ -86,17 +85,15 @@ const Page = () => {
     }
 
     return (
-        <div className="flex w-full max-w-4xl p-8 bg-white rounded-lg shadow-md space-x-8">
-            {/* Left Section: GIF */}
-            <div className="w-1/2 flex justify-center items-center">
-                <Image
-                    src="/login.png" // Replace with your GIF path
+        <div className="flex w-[95%] max-w-4xl p-8 bg-white rounded-lg shadow-md space-x-0 md:space-x-8">
+            <div className="w-1/2 hidden md:flex justify-center items-center">
+                <img
+                    src="/login.png"
                     alt="Link Shortening and QR Code Generation"
                     className="max-w-full h-auto rounded-lg"
                 />
             </div>
-            {/* Right Section: Login Form */}
-            <div className="w-1/2">
+            <div className="w-full md:w-1/2">
                 <div className="text-center">
                     <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
                         Join UrlHub

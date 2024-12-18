@@ -34,7 +34,7 @@ export async function DELETE(
         )
 
     } catch (error: any) {
-        console.error("Error changing user name:", error);
+        console.error("Error deleting user:", error);
         return handleError(error.message, 500);
     }
 }

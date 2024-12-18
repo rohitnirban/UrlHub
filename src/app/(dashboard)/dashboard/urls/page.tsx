@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CalendarDaysIcon, BarChartIcon, TagIcon, CopyIcon } from 'lucide-react';
+import { CalendarDaysIcon, BarChartIcon, TagIcon, CopyIcon, MoreHorizontal, Trash2 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
@@ -20,7 +20,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"; // Shadcn Popover
 import { format } from 'date-fns';
 import { Calendar } from '@/components/ui/calendar';
-import Image from 'next/image';
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
 const Page: React.FC = () => {
     const { toast } = useToast();
@@ -95,6 +95,32 @@ const Page: React.FC = () => {
                 });
                 console.error("Failed to copy text: ", err);
             });
+    };
+
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+    const handleDelete = async (urlId:string) => {
+        try {
+            const response = await axios.delete(`/api/v1/url/delete-url/${urlId}`);
+            if (response.data.success) {
+                toast({
+                    title: "Success",
+                    description: "Link deleted successfully!",
+                });
+                setLinks(links.filter(link => link.urlId !== urlId));
+                setFilteredLinks(filteredLinks.filter(link => link.urlId !== urlId));
+            }
+        } catch (error: any) {
+            console.error("Error deleting link:", error);
+            toast({
+                title: "Error",
+                description: `${error.response?.data?.message || "Failed to delete link!"
+                    } `,
+                variant: "destructive",
+            });
+        } finally {
+            setIsDeleteDialogOpen(false);
+        }
     };
 
     return (
@@ -187,6 +213,34 @@ const Page: React.FC = () => {
                                         url={link?.shortUrl || ""}
                                         title={link?.title || ""}
                                     />
+                                    <Button variant="outline" size="sm" className="hover:bg-gray-100 p-2" onClick={() => setIsDeleteDialogOpen(true)}>
+                                        <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
+                                    </Button>
+
+                                    <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+                                        <DialogContent>
+                                            <DialogHeader>
+                                                <DialogTitle>Confirm Deletion</DialogTitle>
+                                            </DialogHeader>
+                                            <div className="py-4">
+                                                <p>Are you sure you want to delete this URL? This action cannot be undone.</p>
+                                            </div>
+                                            <DialogFooter>
+                                                <Button
+                                                    variant="outline"
+                                                    onClick={() => setIsDeleteDialogOpen(false)}
+                                                >
+                                                    Cancel
+                                                </Button>
+                                                <Button
+                                                    variant="destructive"
+                                                    onClick={() => handleDelete(link?.urlId)}
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </DialogFooter>
+                                        </DialogContent>
+                                    </Dialog>
                                 </div>
                                 <CardHeader className="pb-2">
                                     <Input
@@ -198,7 +252,7 @@ const Page: React.FC = () => {
                                 </CardHeader>
                                 <CardContent className="flex flex-col justify-start items-start -mt-2 ml-2 sm:ml-4">
                                     <div className="flex items-start w-full">
-                                        <Image src={`${link.icon}`} alt="favicon" className="h-8 w-8 sm:h-10 sm:w-10 rounded-full border mb-2 mr-2 sm:mr-4" />
+                                        <img src={`${link.icon}`} alt="favicon" className="h-8 w-8 sm:h-10 sm:w-10 rounded-full border mb-2 mr-2 sm:mr-4" />
                                         <div className="w-full">
                                             <Link href={`/dashboard/urls/${link.urlId}`} className="cursor-pointer hover:underline">
                                                 <div className="flex items-center justify-between">

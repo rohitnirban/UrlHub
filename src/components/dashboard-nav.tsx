@@ -41,17 +41,15 @@ export function DashboardNav({
 
   return (
     <nav className="grid items-start gap-2">
-      <Button>
-        {!isMinimized ?
-          <Link href={'/dashboard/create'}>
+      <Link href={'/dashboard/create'}>
+        <Button className='w-full'>
+          {!isMinimized ?
             <p>Create New</p>
-          </Link>
-          :
-          <Link href={'/dashboard/create'}>
+            :
             <PlusIcon />
-          </Link>
-        }
-      </Button>
+          }
+        </Button>
+      </Link>
       <Separator />
       {items.map((item, index) => {
         const Icon = Icons[item.icon || 'arrowRight'];

@@ -20,7 +20,6 @@ interface UrlData {
     urlId: string;
     title: string;
     icon: string;
-    // ... other fields
 }
 
 export default function ShortUrlRedirect({ params }: Props) {
@@ -46,6 +45,13 @@ export default function ShortUrlRedirect({ params }: Props) {
 
                 const urlEntry = response.data;
                 setUrlData(urlEntry);
+
+                // Delay the redirect
+                setTimeout(() => {
+                    if (isMounted) {
+                        router.push(urlEntry.originalUrl);
+                    }
+                }, 2000); // Wait for 2 seconds before redirecting
 
                 // Fetch IP Address
                 const ipResponse = await axios.get(`https://ipinfo.io/json?token=${process.env.NEXT_PUBLIC_IPINFO_TOKEN}`);

@@ -8,7 +8,6 @@ import { signInSchema } from '@/schemas/signInSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
 import { signIn } from 'next-auth/react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
@@ -61,17 +60,17 @@ const Page = () => {
     }
 
     return (
-        <div className="flex w-full max-w-4xl p-8 bg-white rounded-lg shadow-md space-x-8">
+        <div className="flex w-[95%] max-w-4xl p-8 bg-white rounded-lg shadow-md space-x-0 md:space-x-8">
             {/* Left Section: GIF */}
-            <div className="w-1/2 flex justify-center items-center">
-                <Image
+            <div className="w-1/2 hidden md:flex justify-center items-center">
+                <img
                     src="/login.png" // Replace with your GIF path
                     alt="Link Shortening and QR Code Generation"
                     className="max-w-full h-auto rounded-lg"
                 />
             </div>
             {/* Right Section: Login Form */}
-            <div className="w-1/2">
+            <div className="w-full md:w-1/2">
                 <div className="text-center">
                     <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
                         Welcome 👋

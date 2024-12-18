@@ -15,7 +15,9 @@ import {
   CopyIcon,
   Edit2Icon,
   Loader2,
+  MoreHorizontal,
   TagIcon,
+  Trash2,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { EngagementChart } from "@/components/charts/EngagementChart";
@@ -40,6 +42,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import Image from "next/image";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 const Page = () => {
   const { toast } = useToast();
@@ -134,6 +137,32 @@ const Page = () => {
     }
   };
 
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(`/api/v1/url/delete-url/${urlId}`);
+      if (response.data.success) {
+        toast({
+          title: "Success",
+          description: "Link deleted successfully!",
+        });
+        router.replace(`/dashboard/urls`);
+      }
+    } catch (error: any) {
+      console.error("Error deleting link:", error);
+      toast({
+        title: "Error",
+        description: `${error.response?.data?.message || "Failed to delete link!"
+          } `,
+        variant: "destructive",
+      });
+    } finally {
+      setIsDeleteDialogOpen(false);
+    }
+  };
+
+
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-full">
@@ -159,7 +188,7 @@ const Page = () => {
             <div>
               <h1 className="text-xl md:text-[1.7rem] font-extrabold">{link?.title}</h1>
               <div className='flex flex-col md:flex-row justify-center items-start md:items-center py-2 max-w-[70vw]'>
-                <Image src={link?.metaImageUrl || '/logo-blue.svg'} alt='Favicon' className='hidden md:flex rounded-full border mb-2 md:mb-0 md:mr-4 flex-shrink-0 w-8 h-8' />
+                <img src={link?.icon} alt='Favicon' className='hidden md:flex rounded-full border mb-2 md:mb-0 md:mr-4 flex-shrink-0 w-8 h-8' />
                 <div className='flex flex-col justify-between items-start w-full min-w-0'>
                   <a href={link?.shortUrl} target="_blank" className="hover:underline text-blue-700 w-full text-sm md:text-base truncate">
                     {link?.shortUrl}
@@ -181,6 +210,36 @@ const Page = () => {
               <Button variant="outline" size="sm" className="hover:bg-gray-100 p-2" onClick={handleEdit}>
                 <Edit2Icon className="h-3 w-3 sm:h-4 sm:w-4" />
               </Button>
+
+              <Button variant="outline" size="sm" className="hover:bg-gray-100 p-2" onClick={() => setIsDeleteDialogOpen(true)}>
+                <Trash2 className="h-3 w-3 sm:h-4 sm:w-4" />
+              </Button>
+
+              <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Confirm Deletion</DialogTitle>
+                  </DialogHeader>
+                  <div className="py-4">
+                    <p>Are you sure you want to delete this URL? This action cannot be undone.</p>
+                  </div>
+                  <DialogFooter>
+                    <Button
+                      variant="outline"
+                      onClick={() => setIsDeleteDialogOpen(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      onClick={handleDelete}
+                    >
+                      Delete
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
+
             </div>
           </div>
           <Separator className='my-2' />
