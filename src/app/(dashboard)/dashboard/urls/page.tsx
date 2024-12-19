@@ -21,9 +21,11 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { format } from 'date-fns';
 import { Calendar } from '@/components/ui/calendar';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useRouter } from 'next/navigation';
 
 const Page: React.FC = () => {
     const { toast } = useToast();
+    const router = useRouter();
 
     const [links, setLinks] = useState<LinkData[]>([]);
     const [selectAll, setSelectAll] = useState<boolean>(false);
@@ -99,7 +101,7 @@ const Page: React.FC = () => {
 
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
-    const handleDelete = async (urlId:string) => {
+    const handleDelete = async (urlId: string) => {
         try {
             const response = await axios.delete(`/api/v1/url/delete-url/${urlId}`);
             if (response.data.success) {
@@ -123,6 +125,10 @@ const Page: React.FC = () => {
         }
     };
 
+    const handleOpenSingleShortUrlPage = (urlId: string) => {
+        router.replace(`/dashboard/urls/${urlId}`)
+    }
+
     return (
         <ScrollArea className="h-full">
             <div className="flex-1 space-y-4 p-4 pt-6 md:p-8 bg-gray-50">
@@ -140,7 +146,7 @@ const Page: React.FC = () => {
                                         : "Filter by date"}
                                 </Button>
                             </PopoverTrigger>
-                            <PopoverContent className="w-auto p-4">
+                            <PopoverContent className="w-auto p-4 md:flex overflow-auto max-h-[30rem]">
                                 <div>
                                     <p className="text-sm font-medium mb-2">Start Date</p>
                                     <Calendar
@@ -150,7 +156,7 @@ const Page: React.FC = () => {
                                         className="rounded-md border"
                                     />
                                 </div>
-                                <div className="mt-4">
+                                <div className="ml-0 mt-4 md:mt-0 md:ml-4">
                                     <p className="text-sm font-medium mb-2">End Date</p>
                                     <Calendar
                                         selected={endDate || undefined}
@@ -204,7 +210,7 @@ const Page: React.FC = () => {
                         </>
                     ) : (
                         filteredLinks.map((link, index) => (
-                            <Card key={index} className="hover:shadow-md transition-shadow duration-300 relative">
+                            <Card key={index} className="hover:shadow-md transition-shadow duration-300 relative" onClick={() => handleOpenSingleShortUrlPage(link?.urlId)}>
                                 <div className="absolute mt-2 mr-2 top-1 right-1 sm:top-0 sm:right-2 flex space-x-1">
                                     <Button variant="outline" size="sm" className="hover:bg-gray-100 p-2" onClick={() => handleCopy(link?.shortUrl || "")}>
                                         <CopyIcon className="h-3 w-3 sm:h-4 sm:w-4" />

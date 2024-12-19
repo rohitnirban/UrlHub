@@ -14,7 +14,7 @@ import { ApiResponse } from "@/types/ApiResponse"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Loader2 } from "lucide-react"
+import { Eye, EyeOff, Loader2 } from "lucide-react"
 
 const Page = () => {
     const [username, setUsername] = useState('');
@@ -159,19 +159,35 @@ const Page = () => {
                         <FormField
                             name="password"
                             control={register.control}
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Password</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            type="password"
-                                            placeholder="********"
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
+                            render={({ field }) => {
+                                const [showPassword, setShowPassword] = useState(false);
+                                return (
+                                    <FormItem>
+                                        <FormLabel>Password</FormLabel>
+                                        <FormControl>
+                                            <div className="relative">
+                                                <Input
+                                                    type={showPassword ? "text" : "password"}
+                                                    placeholder="********"
+                                                    {...field}
+                                                />
+                                                <button
+                                                    type="button"
+                                                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+                                                    onClick={() => setShowPassword(!showPassword)}
+                                                >
+                                                    {showPassword ? (
+                                                        <EyeOff className="h-5 w-5 text-gray-500" />
+                                                    ) : (
+                                                        <Eye className="h-5 w-5 text-gray-500" />
+                                                    )}
+                                                </button>
+                                            </div>
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                );
+                            }}
                         />
                         <Button type="submit" disabled={isSubmitting} className="w-full">
                             {isSubmitting ? (

@@ -8,12 +8,6 @@ import { cn } from '@/lib/utils';
 import { NavItem } from '@/types';
 import { Dispatch, SetStateAction } from 'react';
 import { useSidebar } from '@/hooks/useSidebar';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
-} from './ui/tooltip';
 import { Button } from './ui/button';
 import { Separator } from './ui/separator';
 import { PlusIcon } from 'lucide-react';
@@ -37,12 +31,19 @@ export function DashboardNav({
     return null;
   }
 
-  console.log('isActive', isMobileNav, isMinimized);
+  // console.log('isActive', isMobileNav, isMinimized);
+  // console.log('isActive', isMinimized);
+
+  const handleCloseSidebar = () => {
+    if (setOpen) {
+      setOpen(false);
+    }
+  }
 
   return (
     <nav className="grid items-start gap-2">
       <Link href={'/dashboard/create'}>
-        <Button className='w-full'>
+        <Button className='w-full' onClick={handleCloseSidebar}>
           {!isMinimized ?
             <p>Create New</p>
             :

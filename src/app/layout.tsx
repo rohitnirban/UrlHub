@@ -9,6 +9,11 @@ const inter = Inter({ subsets: ["latin"], display:"swap" });
 export const metadata: Metadata = {
   title: "UrlHub",
   description: "A Url shortening service",
+  icons: [
+    {
+      url: "/login.png",
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -25,3 +30,5 @@ export default function RootLayout({
     </html>
   );
 }
+
+

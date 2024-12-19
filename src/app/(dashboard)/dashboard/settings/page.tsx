@@ -89,12 +89,6 @@ export default function Component() {
 
   return (
     <div className="flex flex-col h-screen overflow-hidden md:flex-row">
-      <div
-        className="md:hidden w-fit border rounded-full p-2 cursor-pointer bg-white"
-        onClick={toggleSidebar}
-      >
-        <ChevronDownIcon size={24} />
-      </div>
       <main className="flex-1 overflow-y-auto p-4 md:p-6">
         <ScrollArea className="h-full">
           <div className="max-w-5xl mx-auto">
