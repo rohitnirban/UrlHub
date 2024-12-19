@@ -23,5 +23,10 @@
 ### Changed
 - Free short URL functionality now works.
 
+### Fixed
+- Add password visibility toggle
+- Ehance dashboard navigation
+
+
 ### Added
 - Added sitemap
