@@ -28,26 +28,38 @@ const chartConfig = {
     label: "Visitors",
   },
   linux: {
-    label: "Chrome",
+    label: "Linux",
     color: "#000dff",
   },
   windows: {
-    label: "Safari",
+    label: "Windows",
     color: "#010bcd",
   },
   macOs: {
-    label: "Firefox",
+    label: "macOS",
     color: "#0009ab",
   },
   android: {
-    label: "Edge",
+    label: "Android",
     color: "#626aff",
+  },
+  ios: {
+    label: "iOS",
+    color: "#4a6aff",
+  },
+  chromeOs: {
+    label: "Chrome OS",
+    color: "#2a4aff",
+  },
+  unix: {
+    label: "Unix",
+    color: "#0a2aff",
   },
   other: {
     label: "Other",
     color: "#1f2aff",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function OsPieChart({ clickDetails }: OsPieChartProps) {
   // Process data to calculate visitors by OS

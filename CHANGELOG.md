@@ -27,6 +27,6 @@
 - Add password visibility toggle
 - Ehance dashboard navigation
 
-
 ### Added
 - Added sitemap
+- Added additional browser and OS labels to pie charts and enhance country mapping in horizontal bar chart

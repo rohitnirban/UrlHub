@@ -43,11 +43,31 @@ const chartConfig = {
     label: "Edge",
     color: "#626aff",
   },
+  opera: {
+    label: "Opera",
+    color: "#0033cc",
+  },
+  brave: {
+    label: "Brave",
+    color: "#0044ff",
+  },
+  vivaldi: {
+    label: "Vivaldi",
+    color: "#0022aa",
+  },
+  ie: {
+    label: "Internet Explorer",
+    color: "#001199",
+  },
+  samsung: {
+    label: "Samsung Internet",
+    color: "#0055ff",
+  },
   other: {
     label: "Other",
     color: "#1f2aff",
   },
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function BrowserPieChart({ clickDetails }: BrowserPieChartProps) {
   // Process data to calculate visitors by browser
