@@ -20,6 +20,8 @@ const Page = () => {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    const [showPassword, setShowPassword] = useState(false);
+
     const signInForm = useForm<z.infer<typeof signInSchema>>({
         resolver: zodResolver(signInSchema),
         defaultValues: {
@@ -100,7 +102,6 @@ const Page = () => {
                             name="password"
                             control={signInForm.control}
                             render={({ field }) => {
-                                const [showPassword, setShowPassword] = useState(false);
                                 return <FormItem>
                                     <FormLabel>Password</FormLabel>
                                     <FormControl>

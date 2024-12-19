@@ -21,6 +21,7 @@ const Page = () => {
     const [usernameMessage, setUsernameMessage] = useState('');
     const [isCheckingUsername, setIsCheckingUsername] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const debounced = useDebounceCallback(setUsername, 300)
 
@@ -160,7 +161,6 @@ const Page = () => {
                             name="password"
                             control={register.control}
                             render={({ field }) => {
-                                const [showPassword, setShowPassword] = useState(false);
                                 return (
                                     <FormItem>
                                         <FormLabel>Password</FormLabel>
