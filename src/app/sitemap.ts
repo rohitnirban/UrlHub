@@ -1,11 +1,11 @@
-import type { MetadataRoute } from 'next'
+import type { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
     return [
         {
             url: 'https://urhb.in/',
             lastModified: new Date('2024-12-18T23:18:25+00:00'),
-            changeFrequency: 'yearly',
+            changeFrequency: 'weekly',
             priority: 1.00,
         },
         {
@@ -44,5 +44,29 @@ export default function sitemap(): MetadataRoute.Sitemap {
             changeFrequency: 'yearly',
             priority: 0.64,
         },
-    ]
+    ];
 }
+
+export const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "url": "https://urhb.in/",
+    "potentialAction": [
+        {
+            "@type": "ViewAction",
+            "target": "https://urhb.in/why-urlhub"
+        },
+        {
+            "@type": "RegisterAction",
+            "target": "https://urhb.in/register"
+        },
+        {
+            "@type": "LoginAction",
+            "target": "https://urhb.in/login"
+        },
+        {
+            "@type": "ViewAction",
+            "target": "https://urhb.in/pricing"
+        }
+    ]
+};

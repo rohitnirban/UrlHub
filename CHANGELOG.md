@@ -22,6 +22,7 @@
 
 ### Changed
 - Free short URL functionality now works.
+- Add structured data for SEO in sitemap
 
 ### Fixed
 - Add password visibility toggle
