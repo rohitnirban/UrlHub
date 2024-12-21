@@ -312,8 +312,9 @@ export function HorizontalBar({ clickDetails }: HorizontalBarProps) {
             <Bar
               dataKey="clicks"
               layout="vertical"
-              radius={[5, 5, 0, 0]}
+              radius={[5, 5, 5, 5]}
               barSize={40} /* Fixed bar size to prevent shrinking */
+              
               fill="var(--color-primary)"
             />
           </BarChart>
