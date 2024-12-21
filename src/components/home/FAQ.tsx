@@ -20,7 +20,7 @@ const faqs = [
 export function FAQ() {
   return (
     <div className="container w-full md:w-[65%] ">
-      <h2 className="text-center font-extrabold text-4xl md:text-5xl tracking-tight text-black md-8 md:mb-16">
+      <h2 className="text-center font-extrabold text-4xl md:text-5xl tracking-tight text-black mb-8 md:mb-16">
         Frequently asked questions
       </h2>
       <Accordion type="single" collapsible className="w-full">

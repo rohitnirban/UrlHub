@@ -3,7 +3,7 @@ import mongoose, { Schema, Document } from "mongoose";
 export interface Subscription extends Document {
     subscriptionStartDate: string;
     subscriptionEndDate: string;
-};
+}
 
 export interface User extends Document {
     _id: mongoose.Types.ObjectId;
@@ -17,7 +17,9 @@ export interface User extends Document {
     isSubscribed: boolean;
     role: string;
     subscription: Subscription[];
-};
+    passwordResetToken?: string; // Optional since it may not always exist
+    passwordResetTokenExpiry?: Date; // Optional since it may not always exist
+}
 
 const UserSchema: Schema<User> = new Schema(
     {
@@ -36,7 +38,7 @@ const UserSchema: Schema<User> = new Schema(
             type: String,
             required: [true, "Email is required"],
             unique: true,
-            match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Please Enter a Valid Email Address"],
+            match: [/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, "Please enter a valid email address"],
         },
         password: {
             type: String,
@@ -44,11 +46,11 @@ const UserSchema: Schema<User> = new Schema(
         },
         verifyCode: {
             type: String,
-            required: [true, "Verification Code is required"],
+            required: [true, "Verification code is required"],
         },
         verifyCodeExpiry: {
             type: Date,
-            required: [true, "Verification Code Expiry is required"],
+            required: [true, "Verification code expiry is required"],
         },
         isVerified: {
             type: Boolean,
@@ -60,7 +62,7 @@ const UserSchema: Schema<User> = new Schema(
         },
         role: {
             type: String,
-            enum: ['user', 'admin'],
+            enum: ["user", "admin"],
             default: "user",
         },
         subscription: [
@@ -69,16 +71,23 @@ const UserSchema: Schema<User> = new Schema(
                     type: String,
                 },
                 subscriptionEndDate: {
-                    type: String
-                }
-            }
+                    type: String,
+                },
+            },
         ],
+        passwordResetToken: {
+            type: String,
+            default: null,
+        },
+        passwordResetTokenExpiry: {
+            type: Date,
+            default: null,
+        },
     },
     {
-        timestamps: true
+        timestamps: true,
     }
 );
-
 
 const UserModel = (mongoose.models.User as mongoose.Model<User>) || (mongoose.model<User>("User", UserSchema));
 

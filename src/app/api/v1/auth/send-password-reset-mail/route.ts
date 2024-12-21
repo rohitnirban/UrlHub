@@ -1,13 +1,15 @@
+import ResetPasswordEmail from "@/emails/ResetPassword";
 import { handleError } from "@/helpers/handleError";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/models/User";
-import jwt from "jsonwebtoken"
+import crypto from "crypto";
+import { Resend } from 'resend';
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: Request) {
     await dbConnect();
 
     try {
-
         const { identifier } = await request.json();
 
         if (!identifier) {
@@ -20,19 +22,36 @@ export async function POST(request: Request) {
                 { username: identifier }
             ],
             isVerified: true
-        })
+        });
 
         if (!user) {
-            return handleError("User not found", 400)
+            return handleError("User not found", 400);
         }
 
+        // Generate a secure random token
+        const resetToken = crypto.randomBytes(32).toString("hex");
+        const tokenExpiry = Date.now() + 15 * 60 * 1000; // 15 minutes
+
+        // Hash the token and store it in the database
+        const hashedToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+
+        user.passwordResetToken = hashedToken;
+        user.passwordResetTokenExpiry = new Date(tokenExpiry);
+        await user.save();
+
+        // Construct the reset link
         const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-        const secret = process.env.JWT_SECRET!;
-        const token = jwt.sign({ userID: user._id }, secret, { expiresIn: '15m' });
-        const path = `/reset?token=${token}`
-        const resetLink = `${baseUrl}${path}`
+        const path = `/reset?token=${resetToken}`;
+        const resetLink = `${baseUrl}${path}`;
 
         console.log(resetLink);
+
+        await resend.emails.send({
+            from: 'no-reply@urhb.in',
+            to: user.email,
+            subject: 'UrlHub Verification Code',
+            react: ResetPasswordEmail({ userFirstname: user.name, resetPasswordLink: resetLink }),
+        });
 
         return Response.json(
             {
@@ -44,12 +63,8 @@ export async function POST(request: Request) {
             }
         );
 
-        //TODO : Mail this resetLink to user
-
-
-
     } catch (error) {
-        console.log("Error in sending password reset mail ", error);
-        return handleError("Error in sending password reset mail", 500)
+        console.log("Error in sending password reset mail", error);
+        return handleError("Error in sending password reset mail", 500);
     }
 }

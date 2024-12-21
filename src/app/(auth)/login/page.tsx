@@ -57,6 +57,10 @@ const Page = () => {
 
         console.log(result);
         if (result?.url) {
+            toast({
+                title: 'Success',
+                description: 'Login Success'
+            })
             router.replace('/dashboard/home')
         }
     }
@@ -128,6 +132,13 @@ const Page = () => {
                                 </FormItem>
                             }}
                         />
+                        <div className="text-center">
+                            <p>
+                                <Link href={"/forgot-password"} className="text-blue-600 hover:text-blue-800">
+                                    Forgot your password ?
+                                </Link>
+                            </p>
+                        </div>
                         <Button type="submit" disabled={isSubmitting} className='w-full'>
                             {isSubmitting ? (
                                 <>

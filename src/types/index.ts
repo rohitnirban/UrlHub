@@ -45,6 +45,7 @@ export interface LinkData {
   selected?: boolean; // Optional for the select-all feature
   createdAt: string;
   updatedAt: string;
+  status: string;
 }
 
 export interface clickDetails {

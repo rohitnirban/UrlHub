@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Mouse } from 'lucide-react';
 import Link from 'next/link';
 
 export function Hero() {
@@ -11,7 +10,7 @@ export function Hero() {
       <div
         className="container relative z-10 py-24 text-center"
       >
-        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
+        <h1 className="text-5xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
           <span className="bg-gradient-to-r from-blue-400 to-blue-700 bg-clip-text text-transparent">
             The Ultimate Solution
           </span>

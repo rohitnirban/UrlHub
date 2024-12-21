@@ -3,7 +3,7 @@ import { getToken } from 'next-auth/jwt';
 export { default } from 'next-auth/middleware';
 
 export const config = {
-  matcher: ['/dashboard/:path*', '/login', '/register', '/verify/:path*'],
+  matcher: ['/dashboard/:path*', '/login', '/register', '/verify/:path*', '/reset/:path*', '/forgot-password'],
 };
 
 export async function middleware(request: NextRequest) {
@@ -15,19 +15,21 @@ export async function middleware(request: NextRequest) {
     (
       url.pathname.startsWith('/register') ||
       url.pathname.startsWith('/login') ||
-      url.pathname.startsWith('/verify')
+      url.pathname.startsWith('/verify') ||
+      url.pathname.startsWith('/reset') ||
+      url.pathname.startsWith('/forgot-password')
     )
   ) {
     console.log('Redirecting authenticated user to /dashboard/home');
     return NextResponse.redirect(new URL('/dashboard/home', request.url));
   }
 
-  if (!token && url.pathname.startsWith('/dashboard/home')) {
+  if (!token && url.pathname.startsWith('/dashboard')) {
     console.log('Redirecting unauthenticated user to /login');
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
-  if (url.pathname === '/dashboard') {
+  if (url.pathname === '/dashboard/') {
     console.log('Redirecting /dashboard to /dashboard/home');
     return NextResponse.redirect(new URL('/dashboard/home', request.url))
   }

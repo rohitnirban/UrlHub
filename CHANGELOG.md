@@ -31,3 +31,15 @@
 ### Added
 - Added sitemap
 - Added additional browser and OS labels to pie charts and enhance country mapping in horizontal bar chart
+
+## [1.0.3] - 2024-12-20
+
+### Changed
+- Updated FAQ layout.
+- Enhanced home page structure.
+
+### Added
+- Password reset and forgot password
+
+### Fixed
+- Fixed a bug where users could access the create URL page without authentication.
