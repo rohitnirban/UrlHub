@@ -40,6 +40,7 @@
 
 ### Added
 - Password reset and forgot password
+- Added fun facts display during URL redirection.
 
 ### Fixed
 - Fixed a bug where users could access the create URL page without authentication.

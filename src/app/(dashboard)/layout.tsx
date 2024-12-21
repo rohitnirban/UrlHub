@@ -1,6 +1,12 @@
 import Header from '@/components/layout/header';
 import Sidebar from '@/components/layout/sidebar';
+import { Metadata } from 'next';
 
+
+export const metadata: Metadata = {
+  title: "Dashboard - UrlHub",
+  description: "UrlHub",
+};
 
 export default function DashboardLayout({
   children

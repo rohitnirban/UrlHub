@@ -7,8 +7,8 @@ import AuthProvider from "@/context/AuthProvider";
 const inter = Inter({ subsets: ["latin"], display:"swap" });
 
 export const metadata: Metadata = {
-  title: "UrlHub",
-  description: "A Url shortening service",
+  title: "UrlHub - The Best URL Shortner",
+  description: "UrlHub is a powerful and easy-to-use URL shortener that helps you manage and track your links effortlessly. Simplify your URLs, share them with ease, and monitor their performance with our comprehensive analytics.",
   icons: [
     {
       url: "/login.png",
