@@ -44,3 +44,8 @@
 
 ### Fixed
 - Fixed a bug where users could access the create URL page without authentication.
+
+## [1.0.4] - 2024-12-29
+
+### Added
+- Implemented component for handling URL redirection and metadata generation.
