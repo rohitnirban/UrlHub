@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return {
       title: urlData?.title || 'Redirecting...',
       description: urlData?.metaDescription || '',
-      icons: { icon: urlData?.icon || '' },
+      icons: { icon: urlData?.metaImageUrl || '' },
       openGraph: {
         title: urlData?.title || '',
         description: urlData?.metaDescription || '',
