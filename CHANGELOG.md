@@ -49,3 +49,6 @@
 
 ### Added
 - Implemented component for handling URL redirection and metadata generation.
+
+### Fixed
+- Make the fun facts random
