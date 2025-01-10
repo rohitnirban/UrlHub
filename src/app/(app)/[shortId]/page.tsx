@@ -14,7 +14,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   try {
     const response = await axios.get(`${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/url/${shortId}`);
     const urlData = response.data;
-    console.log(urlData);
 
     return {
       title: urlData?.title || 'Redirecting...',

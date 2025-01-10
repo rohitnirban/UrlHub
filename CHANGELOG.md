@@ -52,3 +52,4 @@
 
 ### Fixed
 - Make the fun facts random
+- Update ShortUrlRedirect to use window.location.href for redirection and clean up console logs

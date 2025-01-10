@@ -47,10 +47,10 @@ export default function ShortUrlRedirect({ params }: Props) {
     useEffect(() => {
         let isMounted = true;
 
+
         async function fetchUrl() {
             try {
                 const response = await axios.get(`/api/v1/url/${shortId}`);
-                if (!isMounted) return;
 
                 if (response.status !== 200 || !response.data?.originalUrl) {
                     router.push('/404');
@@ -60,9 +60,12 @@ export default function ShortUrlRedirect({ params }: Props) {
                 const urlData: UrlData = response.data;
 
                 if (urlData.isFree) {
-                    router.push(urlData.originalUrl);
+                    // router.push(urlData.originalUrl);
+                    window.location.href = urlData.originalUrl;
                     return;
                 }
+
+
 
                 const ipResponse = await axios.get(
                     `https://ipinfo.io/json?token=${process.env.NEXT_PUBLIC_IPINFO_TOKEN}`
@@ -88,6 +91,9 @@ export default function ShortUrlRedirect({ params }: Props) {
                         router.push(urlData.originalUrl);
                     }
                 }, 1000);
+
+                
+                if (!isMounted) return;
             } catch (error) {
                 console.error('Error fetching URL data:', error);
                 if (isMounted) {

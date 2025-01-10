@@ -9,7 +9,7 @@ export async function GET(request: Request, { params }: { params: { shortId: str
   const { shortId } = params;
 
   try {
-    console.log("Short ID server ", shortId);
+    // console.log("Short ID server ", shortId);
     
     // First, try to find a free URL
     const freeUrlEntry = await FreeUrlModel.findOne({ urlId: shortId });
