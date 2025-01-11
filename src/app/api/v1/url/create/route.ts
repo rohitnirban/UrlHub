@@ -7,6 +7,7 @@ import { handleError } from "@/helpers/handleError";
 import UrlModel from "@/models/Url";
 import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { URL } from "url";
+import bcrypt from "bcryptjs";
 import { checkUrlId } from "@/helpers/checkUrlId";
 import { getUrlMetadata } from "@/helpers/getUrlMetadata";
 import { customAlphabet } from "nanoid";
@@ -31,7 +32,9 @@ export async function POST(request: Request) {
 
     try {
 
-        const { title, urlId, originalUrl, tags } = await request.json();
+        const { title, urlId, originalUrl, tags, urlExpiry, isPasswordProtected, password } = await request.json();
+
+        console.log(urlExpiry);
 
         if (!originalUrl) {
             return handleError("Original URL is required", 400);
@@ -51,6 +54,18 @@ export async function POST(request: Request) {
 
         if (urlExists) {
             return handleError("URL already exists", 400);
+        }
+
+        if (urlExpiry && new Date(urlExpiry).getTime() < Date.now() + 24 * 60 * 60 * 1000) {
+            return handleError("Expiry date must be at least 1 day from now", 400);
+        }
+
+        if(isPasswordProtected && !password) {
+            return handleError("Password is required", 400);
+        }
+
+        if (isPasswordProtected && password.length < 5) {
+            return handleError("Password must be at least 5 characters long", 400);
         }
 
         const user = await UserModel.findById(userId);
@@ -77,6 +92,8 @@ export async function POST(request: Request) {
         const shortId = urlId ? urlId : generateShortId().toLowerCase();
 
         const shortUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${shortId}`;
+        console.log(password);
+        const hashedPassword = isPasswordProtected ? await bcrypt.hash(password, 10) : '';
 
         const newUrl = new UrlModel({
             originalUrl: strippedOriginalUrl,
@@ -84,6 +101,9 @@ export async function POST(request: Request) {
             metaImageUrl: imageUrl,
             shortUrl,
             urlId: urlId ? urlId : shortId,
+            urlExpiry: urlExpiry || Date.now() + 100 * 365 * 24 * 60 * 60 * 1000, // 100 years from now
+            isPasswordProtected: isPasswordProtected || false,
+            password: hashedPassword || '',
             title: title || urlTitle,
             icon: urlIcon,
             user,

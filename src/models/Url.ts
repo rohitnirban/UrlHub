@@ -7,6 +7,9 @@ export interface Url extends Document {
     metaImageUrl: string;
     shortUrl: string;
     urlId: string;
+    urlExpiry: Date;
+    isPasswordProtected:boolean;
+    password?: string;
     title: string;
     icon: string;
     user: mongoose.Schema.Types.ObjectId;
@@ -56,6 +59,19 @@ const UrlSchema: Schema<Url> = new Schema(
             required: [true, "Url ID is required"],
             unique: true,
             maxlength: 12,
+        },
+        urlExpiry:{
+            type: Date,
+            required:[true, "Url Expiry is requied"],
+            default: Date.now() + 100 * 365 * 24 * 60 * 60 * 1000 // 100 years from now
+        },
+        isPasswordProtected:{
+            type: Boolean,
+            default: false
+        },
+        password:{
+            type: String,
+            required: [function(this: Url) { return this.isPasswordProtected; }, "Password is required"]
         },
         title: {
             type: String,

@@ -49,6 +49,9 @@
 
 ### Added
 - Implemented component for handling URL redirection and metadata generation.
+- New expired page and password protectd URL UI updates.
+- Added URL expiry feature to automatically disable links after a certain period.
+- Introduced password-protected URLs to enhance security by requiring a password to access the content.
 
 ### Fixed
 - Make the fun facts random

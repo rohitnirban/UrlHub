@@ -10,13 +10,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
+  BarChart,
   CalendarRangeIcon,
   ChevronLeftIcon,
+  Clock,
   CopyIcon,
   Edit2Icon,
   Loader2,
-  MoreHorizontal,
-  TagIcon,
   Trash2,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -27,7 +27,6 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { ApiSingleLinkResponse, LinkData } from "@/types";
 import axios from "axios";
-import dayjs from "dayjs";
 import { OsPieChart } from "@/components/charts/OsPieChart";
 import { useToast } from "@/components/ui/use-toast";
 import { ShareButton } from "@/components/ShareButton";
@@ -41,8 +40,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import Image from "next/image";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(isBetween);
+dayjs.extend(relativeTime);
 
 const Page = () => {
   const { toast } = useToast();
@@ -248,9 +250,24 @@ const Page = () => {
               <CalendarRangeIcon size={14} />
               <span className="ml-2">{dayjs(link?.createdAt).format('D MMM YYYY [at] HH:mm')}</span>
             </div>
+            <div className="flex justify-center items-center md:ml-10">
+              <BarChart size={14} className="sm:w-4 sm:h-4" />
+              <span className="ml-2">
+                {link?.totalClicks === 1 || link?.totalClicks === 0 ? `${link?.totalClicks} engagement` : `${link?.totalClicks} engagements`}
+              </span>
+            </div>
             <div className='flex justify-center items-center md:ml-10'>
-              <TagIcon size={14} />
-              <span className='ml-2 text-xs md:text-sm'>No Tags</span>
+              {dayjs().isAfter(dayjs(link?.urlExpiry)) ? (
+                <>
+                  <Clock size={12} className="sm:w-4 sm:h-4 text-red-500" />
+                  <span className="ml-2 text-red-500">Expired</span>
+                </>
+              ) : (
+                <>
+                  <Clock size={12} className="sm:w-4 sm:h-4" />
+                  <span className="ml-2 ">Expiring {dayjs(link?.urlExpiry).fromNow()}</span>
+                </>
+              )}
             </div>
           </div>
         </div>

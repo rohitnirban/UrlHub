@@ -15,6 +15,9 @@ interface UrlData {
     originalUrl: string;
     shortUrl: string;
     urlId: string;
+    urlExpiry: Date;
+    isPasswordProtected: boolean;
+    password?: string;
     metaDescription?: string;
     metaImageUrl?: string;
     title?: string;
@@ -65,6 +68,19 @@ export default function ShortUrlRedirect({ params }: Props) {
                     return;
                 }
 
+                if (!urlData.isFree) {
+                    const currentDate = new Date();
+                    const urlExpiryDate = new Date(urlData.urlExpiry);
+                    if (currentDate > urlExpiryDate) {
+                        router.push('/expired');
+                        return;
+                    }
+                }
+
+                if (urlData.isPasswordProtected) {
+                    router.push(`/password/${shortId}`);
+                    return;
+                }
 
 
                 const ipResponse = await axios.get(
@@ -92,7 +108,7 @@ export default function ShortUrlRedirect({ params }: Props) {
                     }
                 }, 1000);
 
-                
+
                 if (!isMounted) return;
             } catch (error) {
                 console.error('Error fetching URL data:', error);

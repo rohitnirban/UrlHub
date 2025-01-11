@@ -37,6 +37,7 @@ export interface LinkData {
   icon: string,
   title: string;
   urlId: string;
+  urlExpiry: Date;
   shortUrl: string;
   originalUrl: string;
   totalClicks: number;
