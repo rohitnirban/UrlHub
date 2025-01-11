@@ -52,6 +52,7 @@
 - New expired page and password protectd URL UI updates.
 - Added URL expiry feature to automatically disable links after a certain period.
 - Introduced password-protected URLs to enhance security by requiring a password to access the content.
+- Add new layout components for Pricing, Products, and Why UrlHub pages
 
 ### Fixed
 - Make the fun facts random
