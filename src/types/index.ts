@@ -38,6 +38,8 @@ export interface LinkData {
   title: string;
   urlId: string;
   urlExpiry: Date;
+  isPasswordProtected:boolean;
+  password: string;
   shortUrl: string;
   originalUrl: string;
   totalClicks: number;

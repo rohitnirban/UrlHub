@@ -159,7 +159,7 @@ const CreateNewForm = () => {
                                                 </PopoverContent>
                                             </Popover>
                                         </div>
-                                        <p className="text-sm text-gray-500 mt-1">Default is 100 years.</p>
+                                        <p className="text-sm text-gray-500 mt-1">Once set, it cannot be changed (default is 100 years).</p>
                                     </div>
                                 </div>
                                 <div className='mt-4'>
@@ -186,7 +186,7 @@ const CreateNewForm = () => {
                                                     minLength={5}
                                                     required
                                                 />
-                                                <p className="text-sm text-gray-500 mt-1">Password cannot be empty.</p>
+                                                <p className="text-sm text-gray-500 mt-1">Once set, cannot be changed</p>
                                             </div>
                                         )}
                                     </div>

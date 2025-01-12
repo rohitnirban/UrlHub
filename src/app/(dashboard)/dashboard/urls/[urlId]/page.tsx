@@ -17,6 +17,7 @@ import {
   CopyIcon,
   Edit2Icon,
   Loader2,
+  LockIcon,
   Trash2,
 } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -250,13 +251,13 @@ const Page = () => {
               <CalendarRangeIcon size={14} />
               <span className="ml-2">{dayjs(link?.createdAt).format('D MMM YYYY [at] HH:mm')}</span>
             </div>
-            <div className="flex justify-center items-center md:ml-10">
+            <div className="flex justify-center items-center mb-2 md:mb-0 md:ml-10">
               <BarChart size={14} className="sm:w-4 sm:h-4" />
               <span className="ml-2">
                 {link?.totalClicks === 1 || link?.totalClicks === 0 ? `${link?.totalClicks} engagement` : `${link?.totalClicks} engagements`}
               </span>
             </div>
-            <div className='flex justify-center items-center md:ml-10'>
+            <div className='flex justify-center items-center mb-2 md:mb-0 md:ml-10'>
               {dayjs().isAfter(dayjs(link?.urlExpiry)) ? (
                 <>
                   <Clock size={12} className="sm:w-4 sm:h-4 text-red-500" />
@@ -269,6 +270,12 @@ const Page = () => {
                 </>
               )}
             </div>
+            {link?.isPasswordProtected && ( 
+              <div className='flex justify-center items-center md:ml-10'>
+                <LockIcon size={14} />
+                <span className="ml-2">Protected</span>
+              </div>
+            )}
           </div>
         </div>
 

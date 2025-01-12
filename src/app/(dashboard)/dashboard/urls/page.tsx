@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CalendarDaysIcon, BarChartIcon, TagIcon, CopyIcon, Trash2, Clock } from 'lucide-react';
+import { CalendarDaysIcon, BarChartIcon, TagIcon, CopyIcon, Trash2, Clock, LockIcon } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
@@ -309,17 +309,17 @@ const Page: React.FC = () => {
                                     </div>
                                 </CardContent>
                                 <CardFooter className="flex flex-wrap justify-start gap-2 pt-2">
-                                    <div className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm text-gray-700">
+                                    <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-700">
                                         <BarChartIcon size={12} className="sm:w-4 sm:h-4" />
                                         <span className='ml-1'>
                                             {link?.totalClicks === 1 || link?.totalClicks === 0 ? `${link?.totalClicks} engagement` : `${link?.totalClicks} engagements`}
                                         </span>
                                     </div>
-                                    <div className="mx-2 flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm text-gray-700">
-                                        <CalendarDaysIcon size={12} className="sm:w-4 sm:h-4" />
+                                    <div className="ml-0 sm:ml-4 flex items-center  space-x-2 text-xs sm:text-sm text-gray-700">
+                                        <CalendarDaysIcon size={12} className="ml-2 sm:ml-0 sm:w-4 sm:h-4" />
                                         <span>{dayjs(link.createdAt).format('D MMM YYYY')}</span>
                                     </div>
-                                    <div className="flex items-center space-x-1 sm:space-x-2 text-xs sm:text-sm text-gray-700">
+                                    <div className="ml-0 sm:ml-4 flex items-center space-x-2 text-xs sm:text-sm text-gray-700">
                                         {dayjs().isAfter(dayjs(link.urlExpiry)) ? (
                                             <>
                                                 <Clock size={12} className="sm:w-4 sm:h-4 text-red-500" />
@@ -332,6 +332,12 @@ const Page: React.FC = () => {
                                             </>
                                         )}
                                     </div>
+                                    {link?.isPasswordProtected && (
+                                        <div className="ml-0 sm:ml-4 flex items-center space-x-2 text-xs sm:text-sm text-gray-700">
+                                            <LockIcon size={12} className="sm:w-4 sm:h-4 ml-2 sm:ml-0" />
+                                            <span>Protected</span>
+                                        </div>
+                                    )}
                                 </CardFooter>
                             </Card>
                         ))
