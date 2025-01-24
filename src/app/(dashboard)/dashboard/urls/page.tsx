@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { CalendarDaysIcon, BarChartIcon, TagIcon, CopyIcon, Trash2, Clock, LockIcon } from 'lucide-react';
+import { CalendarDaysIcon, BarChartIcon, TagIcon, CopyIcon, Trash2, Clock, LockIcon, Loader2 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
@@ -23,15 +23,16 @@ import { format } from 'date-fns';
 import { Calendar } from '@/components/ui/calendar';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useRouter } from 'next/navigation';
-import copyToClipboard from '@/helpers/copyToClipboard';
 
 const Page: React.FC = () => {
     const { toast } = useToast();
     const router = useRouter();
 
+
     const [links, setLinks] = useState<LinkData[]>([]);
     const [selectAll, setSelectAll] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isDeleteLoading, setIsDeleteLoading] = useState<boolean>(false);
     const [startDate, setStartDate] = useState<Date | null>(null);
     const [endDate, setEndDate] = useState<Date | null>(null);
     const [filteredLinks, setFilteredLinks] = useState<LinkData[]>([]);
@@ -90,13 +91,29 @@ const Page: React.FC = () => {
     const selectedCount = filteredLinks.filter(link => link.selected).length;
 
     const handleCopy = (content: string) => {
-        copyToClipboard(content);
+        navigator.clipboard
+            .writeText(content)
+            .then(() => {
+                toast({
+                    title: "Success",
+                    description: "Link copied to clipboard!",
+                });
+            })
+            .catch((err) => {
+                toast({
+                    title: "Error",
+                    description: "Failed to copy text!",
+                    variant: "destructive",
+                });
+                console.error("Failed to copy text: ", err);
+            });
     };
 
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
     const handleDelete = async (urlId: string) => {
         try {
+            setIsDeleteLoading(true)
             const response = await axios.delete(`/api/v1/url/delete-url/${urlId}`);
             if (response.data.success) {
                 toast({
@@ -116,6 +133,7 @@ const Page: React.FC = () => {
             });
         } finally {
             setIsDeleteDialogOpen(false);
+            setIsDeleteLoading(false);
         }
     };
 
@@ -224,7 +242,7 @@ const Page: React.FC = () => {
                                                     variant="destructive"
                                                     onClick={() => handleDelete(link?.urlId)}
                                                 >
-                                                    Delete
+                                                    {isDeleteLoading ? <Loader2 className="animate-spin h-5 w-5" /> : 'Delete'}
                                                 </Button>
                                             </DialogFooter>
                                         </DialogContent>

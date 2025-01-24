@@ -44,7 +44,6 @@ import { Separator } from "@/components/ui/separator";
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import copyToClipboard from "@/helpers/copyToClipboard";
 
 dayjs.extend(isBetween);
 dayjs.extend(relativeTime);
@@ -56,6 +55,7 @@ const Page = () => {
 
   const [link, setLink] = useState<LinkData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isDeleteLoading, setIsDeleteLoading] = useState<boolean>(false);
 
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [newTitle, setNewTitle] = useState("");
@@ -85,7 +85,22 @@ const Page = () => {
   }, [urlId]);
 
   const handleCopy = (content: string) => {
-    copyToClipboard(content);
+    navigator.clipboard
+      .writeText(content)
+      .then(() => {
+        toast({
+          title: "Success",
+          description: "Link copied to clipboard!",
+        });
+      })
+      .catch((err) => {
+        toast({
+          title: "Error",
+          description: "Failed to copy text!",
+          variant: "destructive",
+        });
+        console.error("Failed to copy text: ", err);
+      });
   };
 
   const handleEdit = () => {
@@ -131,6 +146,7 @@ const Page = () => {
 
   const handleDelete = async () => {
     try {
+      setIsDeleteLoading(true)
       const response = await axios.delete(`/api/v1/url/delete-url/${urlId}`);
       if (response.data.success) {
         toast({
@@ -149,6 +165,7 @@ const Page = () => {
       });
     } finally {
       setIsDeleteDialogOpen(false);
+      setIsDeleteLoading(false);
     }
   };
 
@@ -224,7 +241,7 @@ const Page = () => {
                       variant="destructive"
                       onClick={handleDelete}
                     >
-                      Delete
+                      {isDeleteLoading ? <Loader2 className="animate-spin h-5 w-5" /> : 'Delete'}
                     </Button>
                   </DialogFooter>
                 </DialogContent>

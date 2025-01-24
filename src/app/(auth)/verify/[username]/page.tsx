@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
@@ -9,8 +9,8 @@ import { ApiResponse } from '@/types/ApiResponse';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios, { AxiosError } from 'axios';
 import { Loader2 } from 'lucide-react';
-import { useParams, useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import { useParams, useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
@@ -23,24 +23,24 @@ const Page = () => {
 
     const verifyForm = useForm<z.infer<typeof verifySchema>>({
         resolver: zodResolver(verifySchema),
-    })
+    });
+
 
     const onSubmit = async (data: z.infer<typeof verifySchema>) => {
-        setIsSubmitting(true)
+        setIsSubmitting(true);
         try {
             const response = await axios.post<ApiResponse>(`/api/v1/auth/verify-code`, {
                 username: param.username,
-                code: data.verifyCode
-            })
-            setIsSubmitting(false)
+                code: data.verifyCode,
+            });
+            setIsSubmitting(false);
 
             toast({
                 title: 'Success',
-                description: response.data.message
-            })
+                description: response.data.message,
+            });
 
-            router.replace('/login')
-
+            router.replace('/login');
         } catch (error) {
             setIsSubmitting(false);
             console.error("Error in verification", error);
@@ -49,10 +49,10 @@ const Page = () => {
             toast({
                 title: "Verification failed",
                 description: axiosError.response?.data.message,
-                variant: "destructive"
-            })
+                variant: "destructive",
+            });
         }
-    }
+    };
 
     return (
         <div className="flex justify-center items-center min-h-screen bg-gray-100">
@@ -61,7 +61,6 @@ const Page = () => {
                     <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
                         Verify your account
                     </h1>
-                    <p className="mb-4">Enter the verification code sent on your email</p>
                 </div>
                 <Form {...verifyForm}>
                     <form onSubmit={verifyForm.handleSubmit(onSubmit)} className="space-y-6">
@@ -93,7 +92,7 @@ const Page = () => {
                 </Form>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Page
+export default Page;
