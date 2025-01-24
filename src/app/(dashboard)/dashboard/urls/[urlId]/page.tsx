@@ -44,6 +44,8 @@ import { Separator } from "@/components/ui/separator";
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import copyToClipboard from "@/helpers/copyToClipboard";
+
 dayjs.extend(isBetween);
 dayjs.extend(relativeTime);
 
@@ -83,22 +85,7 @@ const Page = () => {
   }, [urlId]);
 
   const handleCopy = (content: string) => {
-    navigator.clipboard
-      .writeText(content)
-      .then(() => {
-        toast({
-          title: "Success",
-          description: "Link copied to clipboard!",
-        });
-      })
-      .catch((err) => {
-        toast({
-          title: "Error",
-          description: "Failed to copy text!",
-          variant: "destructive",
-        });
-        console.error("Failed to copy text: ", err);
-      });
+    copyToClipboard(content);
   };
 
   const handleEdit = () => {
@@ -270,7 +257,7 @@ const Page = () => {
                 </>
               )}
             </div>
-            {link?.isPasswordProtected && ( 
+            {link?.isPasswordProtected && (
               <div className='flex justify-center items-center md:ml-10'>
                 <LockIcon size={14} />
                 <span className="ml-2">Protected</span>

@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       },
     };
   } catch (error) {
-    console.error('Error generating metadata:', error);
+    // console.error('Error generating metadata:', error);
     return {
       title: 'Error',
       description: 'Failed to fetch URL data.',

@@ -23,6 +23,7 @@ import { format } from 'date-fns';
 import { Calendar } from '@/components/ui/calendar';
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useRouter } from 'next/navigation';
+import copyToClipboard from '@/helpers/copyToClipboard';
 
 const Page: React.FC = () => {
     const { toast } = useToast();
@@ -89,22 +90,7 @@ const Page: React.FC = () => {
     const selectedCount = filteredLinks.filter(link => link.selected).length;
 
     const handleCopy = (content: string) => {
-        navigator.clipboard
-            .writeText(content)
-            .then(() => {
-                toast({
-                    title: "Success",
-                    description: "Link copied to clipboard!",
-                });
-            })
-            .catch((err) => {
-                toast({
-                    title: "Error",
-                    description: "Failed to copy text!",
-                    variant: "destructive",
-                });
-                console.error("Failed to copy text: ", err);
-            });
+        copyToClipboard(content);
     };
 
     const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
@@ -181,37 +167,7 @@ const Page: React.FC = () => {
                 <div className="flex flex-col md:flex-row justify-center md:justify-between space-y-4">
                     <div className="flex flex-wrap items-center gap-2">
                         <span className="text-xs sm:text-sm">{selectedCount} selected</span>
-                        {/* <Button
-                            variant="outline"
-                            size="sm"
-                            className="text-xs sm:text-sm"
-                            disabled={selectedCount === 0}
-                            onClick={handleArchivedSelected}
-                        >
-                            Archive
-                        </Button> */}
                     </div>
-                    {/* <Select>
-                        <SelectTrigger className="w-full md:w-fit">
-                            <SelectValue placeholder="Show:" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="active">Active</SelectItem>
-                            <SelectItem value="archived">Archived</SelectItem>
-                        </SelectContent>
-                    </Select> */}
-                    {/* <Select
-                        value={filterStatus}
-                        onValueChange={(value) => setFilterStatus(value as "active" | "archived")}
-                    >
-                        <SelectTrigger className="w-full md:w-fit">
-                            <SelectValue placeholder="Show:" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="active">Active</SelectItem>
-                            <SelectItem value="archived">Archived</SelectItem>
-                        </SelectContent>
-                    </Select> */}
                 </div>
 
                 <div className="space-y-4">
