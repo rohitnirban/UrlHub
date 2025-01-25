@@ -2,32 +2,61 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { ChevronRight, Zap, Lock, Clock, FileUp, Briefcase, ArrowRight } from "lucide-react"
+import { AuroraBackground } from '../ui/aurora-background';
+import { HoverBorderGradient } from '../ui/hover-border-gradient';
 
 export function Hero() {
   return (
-    <div className="relative overflow-hidden ">
-      <div
-        className="container relative z-10 py-24 text-center"
-      >
-        <h1 className="text-5xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-          <span className="bg-gradient-to-r from-blue-400 to-blue-700 bg-clip-text text-transparent">
-            The Ultimate Solution
-          </span>
-          <br />
-          For Your Online Presence
-        </h1>
-        <p className="mx-auto mt-6 max-w-[600px] text-lg  md:text-xl">
-          Create a short link that tracks and redirects your followers to all your social media profiles, websites, and online stores.
-        </p>
-        <div className='mt-6'>
-          <Link href={'/register'}>
-            <Button>
-              Get Started
+    <AuroraBackground>
+      <section className="relative min-h-screen flex items-center overflow-hidden">
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center space-y-8 max-w-3xl mx-auto">
+            <div className="flex justify-center space-x-4">
+              <HoverBorderGradient
+                containerClassName="rounded-full bg-white"
+                as="button"
+                className="bg-blue-50 text-black flex items-center space-x-2"
+              >
+                <p className='text-sm inline-flex justify-center items-center'>
+                  <span>More URL Features coming soon</span>
+                  <ArrowRight className='ml-2' size={14}/>
+                </p>
+              </HoverBorderGradient>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
+              Shorten, Secure, and Share
+              <span className="block text-blue-600">Your URLs with Ease</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-800">
+              Create custom, secure, and time-sensitive short links in seconds. Perfect for professionals and businesses
+              looking to optimize their online presence with the best URL shortener.
+            </p>
+            <div className="flex flex-wrap justify-center gap-4">
+              <FeatureItem icon={<Zap size={24} />} text="Custom back-half" />
+              <FeatureItem icon={<Lock size={24} />} text="Password protection" />
+              <FeatureItem icon={<Clock size={24} />} text="Expiry dates" />
+            </div>
+            <Button
+              size="lg"
+              className="0 font-semibold text-lg px-8 py-6"
+            >
+              Start Shortening Now
+              <ChevronRight className="ml-2 h-5 w-5" />
             </Button>
-          </Link>
+          </div>
         </div>
-      </div>
+      </section>
+    </AuroraBackground>
+  )
+}
+
+
+function FeatureItem({ icon, text }: { icon: React.ReactNode; text: string }) {
+  return (
+    <div className="flex items-center space-x-2 bg-white/10 rounded-full px-4 py-2">
+      {icon}
+      <span className="text-sm font-medium">{text}</span>
     </div>
   )
 }
