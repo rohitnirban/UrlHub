@@ -1,69 +1,86 @@
 ## Overview
 
-Welcome to the URL Manager project, a powerful web application designed to simplify URL management by providing URL shortening capabilities and comprehensive analytics on link performance. This project employs a technology stack consisting of React.js for the frontend, Node.js for the backend, and MongoDB for efficient and scalable data storage.
+Welcome to the URL Manager project, a versatile web application designed to revolutionize how you manage and share links. With advanced features like custom short links, URL expiration, and password protection, this tool goes beyond basic URL shortening. Plus, exciting upcoming features like file sharing and portfolio link generation make this a comprehensive solution for your sharing needs.
 
 ## Features
 
 1. **URL Shortening:**
+
    - Easily shorten lengthy URLs to create concise and shareable links.
 
-2. **Analytics Dashboard:**
-   - Gain insights into link performance with a user-friendly analytics dashboard.
-   - Track metrics such as click-through rates, geographic data, and more.
+2. **Customizable Short Links:**
 
-3. **User Authentication:**
+   - Personalize your short links with custom back halves for branding and better identification.
+
+3. **Link Expiry and Password Protection:**
+
+   - Set expiration dates for your URLs to control their availability.
+   - Protect sensitive links with password security.
+
+4. **Analytics Dashboard:**
+
+   - Gain insights into link performance with a detailed analytics dashboard.
+   - Track metrics such as total clicks, geographic data, browser usage, and operating systems.
+
+5. **User Authentication:**
+
    - Secure user accounts with authentication features for personalized link management.
 
-4. **Customizable Short Links:**
-   - Create custom short links for branding and personalization.
-
-5. **Link Expiry and Tracking:**
-   - Track the lifespan of each URL for monitoring purposes.
+6. **Upcoming Features:**
+   - **File Shortener:** Upload files and generate short, shareable links for them.
+   - **Portfolio Builder:** Upload your resume, build a portfolio, and get a customizable, editable link to showcase your work.
 
 ## Technology Stack
 
 - **Frontend:**
-  - Developed using Next.js for a responsive and dynamic user interface.
+
+  - Built with Next.js to create a responsive, dynamic, and seamless user interface.
 
 - **Backend:**
-  - Powered by Next.js to handle server-side logic, API requests, and database interactions.
+
+  - Powered by Next.js for server-side logic, API handling, and smooth database interactions.
 
 - **Database:**
-  - MongoDB is employed for efficient and scalable data storage.
+  - MongoDB ensures efficient, scalable, and reliable data storage.
 
 ## Getting Started
 
 To get started with the URL Manager project, follow these steps:
 
 1. Clone the repository:
+
    ```bash
-   git clone https://github.com/your-username/UrlHub.git
+   git clone https://github.com/rohitnirban/urlhub.git
    ```
 
 2. Navigate to the project directory:
+
    ```bash
    cd UrlHub
    ```
 
 3. Install dependencies:
+
    ```bash
    npm install
    ```
 
 4. Configure the backend:
+
    - Set up a MongoDB database and update the connection details in the backend configuration.
 
 5. Run the application:
+
    ```bash
-   npm start
+   npm run dev
    ```
 
 6. Access the application:
-   - Open your browser and visit `http://localhost:3000` to access the URL Manager.
+   - Open your browser and visit `http://localhost:3000` to explore the URL Manager.
 
 ## Contributing
 
-Contributions to the URL Manager project are welcome! Follow the guidelines in the [CONTRIBUTING.md](CONTRIBUTING.md) file to contribute to the development of the project.
+Contributions to the URL Manager project are always welcome! Whether it's a bug fix, a feature request, or a new idea, check out our [CONTRIBUTING.md](CONTRIBUTING.md) file to get started.
 
 ## License
 
@@ -71,6 +88,6 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Acknowledgements
 
-Special thanks to the contributors and the open-source community for their valuable contributions to the URL Manager project.
+Special thanks to the contributors and the open-source community for their valuable support in building this project.
 
 Happy URL Managing! 🚀
