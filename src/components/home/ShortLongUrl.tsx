@@ -144,7 +144,7 @@ export function ShortLongUrl() {
                               />
                             </TooltipTrigger>
                             <TooltipContent>
-                              <p>Please Login First to create password URL</p>
+                              <p>Please Login First to use custom back half</p>
                             </TooltipContent>
                           </Tooltip>
                         </TooltipProvider>
