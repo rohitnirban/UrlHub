@@ -58,3 +58,16 @@
 ### Fixed
 - Make the fun facts random
 - Update ShortUrlRedirect to use window.location.href for redirection and clean up console logs
+
+## [2.0.1] - 2025-01-28
+
+### Added
+- Add AuroraBackground component and refactor Hero section; update Tailwind config for new animations
+- Implement copyToClipboard helper and refactor copy logic in dashboard URLs
+
+### Fixed
+- Remove copyToClipboard helper and implement clipboard functionality directly in components
+- Removed background-lines component
+
+### Docs
+- Update README to enhance project overview and feature descriptions
