@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -15,6 +15,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Separator } from '../ui/separator'
+import { useDebounceCallback } from 'usehooks-ts'
 
 
 export function ShortLongUrl() {
@@ -24,6 +25,10 @@ export function ShortLongUrl() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [screenshotUrl, setScreenshotUrl] = useState('');
+  const [screenshotUrlMessage, setScreenshotUrlMessage] = useState('');
+  const [screenshotUrlLoading, setScreenshotUrlLoading] = useState(false);
+
+  const debounced = useDebounceCallback(setScreenshotUrl, 1000)
 
   const domain = process.env.NEXT_PUBLIC_SHORT_DOMAIN;
 
@@ -35,11 +40,6 @@ export function ShortLongUrl() {
       setError('Please enter a valid URL.')
       return
     }
-
-    const microlinkResponse = await axios.get(
-      `https://api.microlink.io?url=${encodeURIComponent(originalUrl)}&screenshot=true&meta=false`
-    );
-    setScreenshotUrl(microlinkResponse.data.data.screenshot.url);
 
     setLoading(true)
     setError('')
@@ -58,6 +58,34 @@ export function ShortLongUrl() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    const getUrlScreenshot = async () => {
+      if (originalUrl) {
+        setScreenshotUrlLoading(true);
+        try {
+          const microlinkResponse = await axios.get(
+            `https://api.microlink.io?url=${encodeURIComponent(originalUrl)}&screenshot=true&meta=false`
+          );
+          console.log(microlinkResponse.data.data.screenshot.url);
+          if (microlinkResponse.data.data.screenshot.url) {
+            setScreenshotUrlMessage("Got Screenshot");
+            setScreenshotUrl(microlinkResponse.data.data.screenshot.url);
+          }
+          setScreenshotUrlLoading(false);
+
+        } catch (error: any) {
+          console.error("Error getting screenshot", error);
+          if (error?.response?.data?.code === "EINVALURL") {
+            setScreenshotUrlMessage("Invalid URL");
+          }
+        }
+      }
+    }
+
+    getUrlScreenshot()
+  }, [originalUrl])
+
 
   const handleCopy = () => {
     navigator.clipboard.writeText(shortUrl)
@@ -83,7 +111,10 @@ export function ShortLongUrl() {
                     <Input
                       placeholder="https://example.com/my-long-url"
                       value={originalUrl}
-                      onChange={(e) => setOriginalUrl(e.target.value)}
+                      onChange={(e) => {
+                        setOriginalUrl(e.target.value)
+                        debounced(e.target.value)
+                      }}
                     />
                     <RefreshCcw className='ml-2 cursor-pointer' onClick={() => window.location.reload()} />
                   </div>
@@ -167,11 +198,22 @@ export function ShortLongUrl() {
                   </svg>
                 </div>
                 <div className='absolute -mt-[13.8rem] ml-[2.5rem]  z-100 '>
-                  {screenshotUrl ? <img
-                    src={screenshotUrl}
-                    alt="Website Screenshot"
-                    className="w-[23.5rem] h-60 rounded-lg shadow-lg"
-                  /> : <div className='text-lg text-center ml-6 mt-[6.5rem]'>Enter Destination to see its preview here.</div>}
+                  {
+                    screenshotUrl && screenshotUrlMessage === "Got Screenshot" ? (
+                      <img
+                        src={screenshotUrl}
+                        alt=""
+                        className="w-[23.5rem] h-60 rounded-lg shadow-lg"
+                      />
+                    ) : (
+                      <div className="text-lg text-center ml-6 mt-[6.5rem]">
+                        {screenshotUrlMessage === "Invalid URL"
+                          ? "Please enter a valid URL"
+                          : "Enter Destination to see its preview here."}
+                      </div>
+                    )
+                  }
+
                 </div>
               </div>
             </div>

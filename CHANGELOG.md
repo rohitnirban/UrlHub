@@ -68,6 +68,7 @@
 ### Fixed
 - Remove copyToClipboard helper and implement clipboard functionality directly in components
 - Removed background-lines component
+- Implement screenshot fetching for URLs with debounced input handling and loading states
 
 ### Docs
 - Update README to enhance project overview and feature descriptions
