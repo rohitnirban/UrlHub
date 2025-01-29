@@ -67,7 +67,6 @@ export function ShortLongUrl() {
           const microlinkResponse = await axios.get(
             `https://api.microlink.io?url=${encodeURIComponent(originalUrl)}&screenshot=true&meta=false`
           );
-          console.log(microlinkResponse.data.data.screenshot.url);
           if (microlinkResponse.data.data.screenshot.url) {
             setScreenshotUrlMessage("Got Screenshot");
             setScreenshotUrl(microlinkResponse.data.data.screenshot.url);
@@ -75,7 +74,6 @@ export function ShortLongUrl() {
           setScreenshotUrlLoading(false);
 
         } catch (error: any) {
-          console.error("Error getting screenshot", error);
           if (error?.response?.data?.code === "EINVALURL") {
             setScreenshotUrlMessage("Invalid URL");
           }
@@ -197,24 +195,26 @@ export function ShortLongUrl() {
                     </switch>
                   </svg>
                 </div>
-                <div className='absolute -mt-[13.8rem] ml-[2.5rem]  z-100 '>
-                  {
-                    screenshotUrl && screenshotUrlMessage === "Got Screenshot" ? (
-                      <img
-                        src={screenshotUrl}
-                        alt=""
-                        className="w-[23.5rem] h-60 rounded-lg shadow-lg"
-                      />
-                    ) : (
-                      <div className="text-lg text-center ml-6 mt-[6.5rem]">
-                        {screenshotUrlMessage === "Invalid URL"
-                          ? "Please enter a valid URL"
-                          : "Enter Destination to see its preview here."}
-                      </div>
-                    )
-                  }
-
+                <div className="absolute -mt-[13.8rem] ml-[2.5rem] z-100">
+                  {screenshotUrlLoading ? (
+                    <div className="flex justify-center items-center w-[23.5rem] h-60 bg-gray-200 rounded-lg shadow-lg">
+                      <span className="animate-spin border-4 border-blue-500 border-t-transparent rounded-full w-10 h-10"></span>
+                    </div>
+                  ) : screenshotUrl && screenshotUrlMessage === "Got Screenshot" ? (
+                    <img
+                      src={screenshotUrl}
+                      alt="Website preview"
+                      className="w-[23.5rem] h-60 rounded-lg shadow-lg"
+                    />
+                  ) : (
+                    <div className="text-lg text-center ml-6 mt-[6.5rem]">
+                      {screenshotUrlMessage === "Invalid URL"
+                        ? "Please enter a valid URL"
+                        : "Enter Destination to see its preview here."}
+                    </div>
+                  )}
                 </div>
+
               </div>
             </div>
             {shortUrl && (
