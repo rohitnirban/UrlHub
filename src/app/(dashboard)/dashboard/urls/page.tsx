@@ -213,7 +213,7 @@ const Page: React.FC = () => {
                             <div>
                                 <div className="text-center mt-4">
                                     <img src="/nourl.svg" alt="No URLs" className="mx-auto mb-4 h-52 w-52" />
-                                    <p className="text-gray-500 mb-4">No URLs found. Click on "Create New" to start shortening your URL.</p>
+                                    <p className="text-gray-500 mb-4">No URLs found. Click on below button to start shortening your URL.</p>
                                     <Link href="/dashboard/create">
                                         <Button>Create New</Button>
                                     </Link>
