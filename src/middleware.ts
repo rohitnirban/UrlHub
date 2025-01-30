@@ -24,7 +24,22 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/dashboard/home', request.url));
   }
 
-  if (!token && url.pathname.startsWith('/dashboard')) {
+  if (!token && url.pathname === '/dashboard/create') {
+    console.log('Redirecting unauthenticated user to /login');
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+
+  if (!token && url.pathname === '/dashboard/home') {
+    console.log('Redirecting unauthenticated user to /login');
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+
+  if (!token && url.pathname === '/dashboard/settings') {
+    console.log('Redirecting unauthenticated user to /login');
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+
+  if (!token && url.pathname === '/dashboard/urls') {
     console.log('Redirecting unauthenticated user to /login');
     return NextResponse.redirect(new URL('/login', request.url));
   }

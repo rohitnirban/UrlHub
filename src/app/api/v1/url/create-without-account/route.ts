@@ -2,10 +2,10 @@ import dbConnect from "@/lib/dbConnect";
 import { handleError } from "@/helpers/handleError";
 import FreeUrlModel from "@/models/FreeUrl";
 import { URL } from "url";
-import { customAlphabet } from "nanoid";
+import { ssid } from "ssid";
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-const generateShortId = customAlphabet(alphabet, 8); // Generates an 8-character ID
+const generateShortId = ssid(8, alphabet); // Generates an 8-character ID
 
 
 export async function POST(request: Request) {
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
             return handleError("URL already exists", 400);
         }
 
-        const shortId = generateShortId().toLowerCase();
+        const shortId = generateShortId.toLowerCase();
 
         const shortUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${shortId}`;
 

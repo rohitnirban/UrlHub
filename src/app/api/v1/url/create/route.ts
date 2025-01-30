@@ -10,10 +10,10 @@ import { URL } from "url";
 import bcrypt from "bcryptjs";
 import { checkUrlId } from "@/helpers/checkUrlId";
 import { getUrlMetadata } from "@/helpers/getUrlMetadata";
-import { customAlphabet } from "nanoid";
+import { ssid } from "ssid";
 
 const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-const generateShortId = customAlphabet(alphabet, 8); // Generates an 8-character ID
+const generateShortId = ssid(8, alphabet); // Generates an 8-character ID
 
 export async function POST(request: Request) {
     await dbConnect();
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
         const requestUrlObj = new URL(originalUrl);
         const strippedOriginalUrl = requestUrlObj.href;
 
-        const urlExists = await UrlModel.findOne({originalUrl:strippedOriginalUrl})
+        const urlExists = await UrlModel.findOne({ originalUrl: strippedOriginalUrl })
 
         if (urlExists) {
             return handleError("URL already exists", 400);
@@ -60,7 +60,7 @@ export async function POST(request: Request) {
             return handleError("Expiry date must be at least 1 day from now", 400);
         }
 
-        if(isPasswordProtected && !password) {
+        if (isPasswordProtected && !password) {
             return handleError("Password is required", 400);
         }
 
@@ -89,7 +89,7 @@ export async function POST(request: Request) {
             }
         }
 
-        const shortId = urlId ? urlId : generateShortId().toLowerCase();
+        const shortId = urlId ? urlId : generateShortId.toLowerCase();
 
         const shortUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/${shortId}`;
         console.log(password);
