@@ -243,7 +243,7 @@ const CreateNewForm = () => {
                                 </div>
                                 <div className="sticky -mt-[13.6rem] ml-[2.5rem] z-100 ">
                                     {screenshotUrlLoading ? (
-                                        <div className="flex justify-center items-center w-[23.5rem] h-60 bg-gray-200 rounded-lg shadow-lg">
+                                        <div className="flex justify-center items-center w-[24.5rem] h-[15.8rem] h-60 bg-gray-200 rounded-lg shadow-lg">
                                             <span className="animate-spin border-4 border-blue-500 border-t-transparent rounded-full w-10 h-10"></span>
                                         </div>
                                     ) : screenshotUrl && screenshotUrlMessage === "Got Screenshot" ? (

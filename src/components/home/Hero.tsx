@@ -2,9 +2,10 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { ChevronRight, Zap, Lock, Clock, FileUp, Briefcase, ArrowRight } from "lucide-react"
+import { ChevronRight, Zap, Lock, Clock, ArrowRight } from "lucide-react"
 import { AuroraBackground } from '../ui/aurora-background';
 import { HoverBorderGradient } from '../ui/hover-border-gradient';
+import Link from 'next/link';
 
 export function Hero() {
   return (
@@ -20,7 +21,7 @@ export function Hero() {
               >
                 <p className='text-sm inline-flex justify-center items-center'>
                   <span>More URL Features coming soon</span>
-                  <ArrowRight className='ml-2' size={14}/>
+                  <ArrowRight className='ml-2' size={14} />
                 </p>
               </HoverBorderGradient>
             </div>
@@ -37,13 +38,17 @@ export function Hero() {
               <FeatureItem icon={<Lock size={24} />} text="Password protection" />
               <FeatureItem icon={<Clock size={24} />} text="Expiry dates" />
             </div>
-            <Button
-              size="lg"
-              className="0 font-semibold text-lg px-8 py-6"
-            >
-              Start Shortening Now
-              <ChevronRight className="ml-2 h-5 w-5" />
-            </Button>
+            <div className='mt-10 '>
+              <Link href={'/dashboard/create'}>
+                <Button
+                  size="lg"
+                  className="font-semibold text-lg px-8 py-6"
+                >
+                  Start Shortening Now
+                  <ChevronRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>

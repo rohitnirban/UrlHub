@@ -61,6 +61,7 @@ const Page = () => {
                     <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
                         Verify your account
                     </h1>
+                    <p className="mb-4">We sent an OTP to your registered email for verification.</p>
                 </div>
                 <Form {...verifyForm}>
                     <form onSubmit={verifyForm.handleSubmit(onSubmit)} className="space-y-6">
@@ -80,7 +81,7 @@ const Page = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" disabled={isSubmitting}>
+                        <Button type="submit" className='w-full' disabled={isSubmitting}>
                             {isSubmitting ? (
                                 <>
                                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

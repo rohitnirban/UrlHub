@@ -56,8 +56,8 @@ export async function POST(request: Request) {
             return handleError("URL already exists", 400);
         }
 
-        if (urlExpiry && new Date(urlExpiry).getTime() < Date.now() + 24 * 60 * 60 * 1000) {
-            return handleError("Expiry date must be at least 1 day from now", 400);
+        if (urlExpiry && new Date(urlExpiry).getTime() <= Date.now() + 24 * 60 * 60 * 1000 - 1) {
+            return handleError("Expiry date must be at least 24 hours from now", 400);
         }
 
         if (isPasswordProtected && !password) {
