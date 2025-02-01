@@ -182,7 +182,7 @@ export function ShortLongUrl() {
               </div>
               <div className='hidden lg:block w-full mx-4'>
                 <div className='bg-transparent  h-96 -mt-48'>
-                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="84.965 240 100 125" enable-background="new 84.965 256.099 100 100" >
+                  <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="84.965 240 100 125" enableBackground="new 84.965 256.099 100 100" >
                     <switch>
                       <foreignObject requiredExtensions="http://ns.adobe.com/AdobeIllustrator/10.0/" x="0" y="0" width="1" height="1" />
                       <g>

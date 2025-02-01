@@ -2,13 +2,11 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { handleError } from "@/helpers/handleError";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/models/User";
+import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 import { User } from 'next-auth';
 
-
-export async function DELETE(
-    request: Request
-) {
+export async function GET() {
     await dbConnect();
 
     const session = await getServerSession(authOptions);
@@ -21,33 +19,40 @@ export async function DELETE(
         );
     }
 
+    const userId = new mongoose.Types.ObjectId(_user._id);
+
     try {
-        const { username } = await request.json();
 
-        if(!username){
-            return handleError("Please provide username to delete account", 400);
-        }
+        const user = await UserModel.findById(userId);
 
-        const user = await UserModel.findOne({ username });
-
-        if (!user) {
+        if(!user) {
             return handleError("User not found", 404);
         }
 
-        await UserModel.deleteOne({ username });
+        if(user.role !== "admin") {
+            return handleError("Unauthorized", 401);
+        }
+
+        const users = await UserModel.find({});
+
+        if(!users || users.length === 0) {
+            return handleError("No users found", 404);
+        }
 
         return Response.json(
-            {
+            { 
                 success: true,
-                message: 'User deleted successfully.'
+                message: "Users found successfully",
+                users
             },
             {
                 status: 200
             }
-        )
-
-    } catch (error: any) {
-        console.error("Error deleting user:", error);
-        return handleError(error.message, 500);
+        );
+        
+    } catch (error) {
+        console.log("Error get all users");
+        return handleError("Error get all users", 500);
     }
+
 }

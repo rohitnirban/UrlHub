@@ -1,12 +1,25 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import { handleError } from "@/helpers/handleError";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/models/User";
+import { getServerSession } from "next-auth";
+import { User } from 'next-auth';
 
 
 export async function PUT(
     request: Request
 ) {
     await dbConnect();
+
+    const session = await getServerSession(authOptions);
+    const _user: User = session?.user;
+
+    if (!session || !_user) {
+        return Response.json(
+            { success: false, message: 'Not authenticated' },
+            { status: 401 }
+        );
+    }
 
     try {
         const { newName, username } = await request.json();
