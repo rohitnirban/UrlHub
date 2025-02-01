@@ -64,11 +64,12 @@
 ### Added
 - Add AuroraBackground component and refactor Hero section; update Tailwind config for new animations
 - Implement copyToClipboard helper and refactor copy logic in dashboard URLs
+- Implement screenshot fetching for URLs with debounced input handling and loading states
+- Implement user authentication checks in admin routes and enhance SVG attributes
 
 ### Fixed
 - Remove copyToClipboard helper and implement clipboard functionality directly in components
 - Removed background-lines component
-- Implement screenshot fetching for URLs with debounced input handling and loading states
 - Improve user feedback on account verification and enhance UI elements in various components
 
 ### Docs
