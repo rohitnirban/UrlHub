@@ -43,4 +43,10 @@ export const adminNavItems: NavItem[] = [
     icon: 'url',
     label: 'All Urls'
   },
+  {
+    title: 'Free Urls',
+    href: '/admin/free-urls',
+    icon: 'url',
+    label: 'All Free Urls'
+  },
 ];

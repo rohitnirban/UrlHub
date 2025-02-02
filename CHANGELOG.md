@@ -80,6 +80,7 @@
 ### Added
 - Added user activity logs to track actions performed within the application.
 - Implemented a new analytics dashboard with real-time data visualization.
+- Added users, urls and free urls page to see all data without going to dashboard again and again
 
 ### Changed
 - Improved performance of the URL redirection component.
