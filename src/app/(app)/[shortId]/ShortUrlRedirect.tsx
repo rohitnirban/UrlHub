@@ -36,6 +36,22 @@ const facts = [
     'URLs can include special characters like hyphens, underscores, and even emojis!',
     'Short URLs can help improve click-through rates by making links more attractive.',
     'Some URL shorteners offer analytics to track the performance of your links.',
+    'The first ever registered domain name was symbolics.com, registered on March 15, 1985.',
+    'There are over 1.7 billion websites on the internet today.',
+    'The .com domain extension stands for "commercial" and is the most popular top-level domain.',
+    'The internet was originally called ARPANET and was developed by the U.S. Department of Defense.',
+    'The first search engine was called Archie, created in 1990.',
+    'The term "surfing the internet" was coined by a librarian named Jean Armour Polly in 1992.',
+    'The first email was sent by Ray Tomlinson to himself in 1971.',
+    'The first webcam was used to monitor a coffee pot at the University of Cambridge.',
+    'The first video ever uploaded to YouTube was titled "Me at the zoo" by co-founder Jawed Karim.',
+    'The term "spam" for unsolicited emails comes from a Monty Python sketch.',
+    'The first tweet was sent by Jack Dorsey on March 21, 2006, and read "just setting up my twttr".',
+    'The first website is still online and can be visited at info.cern.ch.',
+    'The first online purchase was a Sting CD sold by NetMarket in 1994.',
+    'The first banner ad appeared on HotWired.com in 1994 and had a 44% click-through rate.',
+    'The first domain name ever registered was symbolics.com on March 15, 1985.',
+    'The first search engine was called "Archie," created in 1990 by Alan Emtage.'
 ];
 
 export default function ShortUrlRedirect({ params }: Props) {
@@ -132,7 +148,7 @@ export default function ShortUrlRedirect({ params }: Props) {
     useEffect(() => {
         const interval = setInterval(() => {
             setFact(facts[Math.floor(Math.random() * facts.length)]);
-        }, 3000);
+        }, 5000);
 
         return () => clearInterval(interval);
     }, []);
