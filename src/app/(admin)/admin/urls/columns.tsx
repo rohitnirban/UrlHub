@@ -55,18 +55,25 @@ export const columns: ColumnDef<Url>[] = [
     },
     {
         accessorKey: "originalUrl",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Original Url
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            )
-        },
+        header: ({ column }) => (
+            <Button
+                variant="ghost"
+                onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            >
+                Original Url
+                <ArrowUpDown className="ml-2 h-4 w-4" />
+            </Button>
+        ),
+        cell: ({ row }) => (
+            <span
+                className="block max-w-[300px] truncate text-ellipsis overflow-hidden"
+                title={row.original.originalUrl} // Tooltip for full URL
+            >
+                {row.original.originalUrl}
+            </span>
+        ),
     },
+
     {
         accessorKey: "urlExpiry",
         header: ({ column }) => {
