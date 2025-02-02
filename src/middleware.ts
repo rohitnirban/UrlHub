@@ -13,17 +13,17 @@ export async function middleware(request: NextRequest) {
 
   const authPaths = ['/register', '/login', '/verify', '/reset', '/forgot-password'];
   const dashboardPaths = ['/dashboard/create', '/dashboard/home', '/dashboard/settings', '/dashboard/urls'];
-  const adminPaths = ['/admin/users', '/admin/urls'];
+  const adminPaths = ['/admin/home, /admin/users', '/admin/urls', '/admin/free-urls'];
 
   if (token) {
     if (token.role === 'admin') {
       if (authPaths.some(path => pathname.startsWith(path))) {
-        console.log('Redirecting authenticated admin to /admin/users');
-        return NextResponse.redirect(new URL('/admin/users', request.url));
+        console.log('Redirecting authenticated admin to /admin/home');
+        return NextResponse.redirect(new URL('/admin/home', request.url));
       }
       if (dashboardPaths.some(path => pathname.startsWith(path))) {
-        console.log('Redirecting admin from dashboard route to /admin/users');
-        return NextResponse.redirect(new URL('/admin/users', request.url));
+        console.log('Redirecting admin from dashboard route to /admin/home');
+        return NextResponse.redirect(new URL('/admin/home', request.url));
       }
     }
 

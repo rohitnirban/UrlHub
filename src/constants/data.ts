@@ -32,6 +32,12 @@ export const navItems: NavItem[] = [
 
 export const adminNavItems: NavItem[] = [
   {
+    title: 'Home',
+    href: '/admin/home',
+    icon: 'dashboard',
+    label: 'Home'
+  },
+  {
     title: 'Users',
     href: '/admin/users',
     icon: 'user',

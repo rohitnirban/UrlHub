@@ -81,13 +81,14 @@
 - Added user activity logs to track actions performed within the application.
 - Implemented a new analytics dashboard with real-time data visualization.
 - Added users, urls and free urls page to see all data without going to dashboard again and again
+- Added admin home page and recent activities components
 
 ### Changed
 - Improved performance of the URL redirection component.
 - Updated Tailwind CSS to the latest version for better compatibility and new features.
 
-
 ### Fixed
 - Resolved an issue where the URL redirection component would occasionally fail.
 - Fixed a bug causing incorrect display of user activity logs.
 - Addressed layout inconsistencies in the analytics dashboard.
+- Enhance middleware for admin routing
