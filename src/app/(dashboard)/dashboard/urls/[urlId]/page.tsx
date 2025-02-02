@@ -261,19 +261,21 @@ const Page = () => {
                 {link?.totalClicks === 1 || link?.totalClicks === 0 ? `${link?.totalClicks} engagement` : `${link?.totalClicks} engagements`}
               </span>
             </div>
-            <div className='flex justify-center items-center mb-2 md:mb-0 md:ml-10'>
-              {dayjs().isAfter(dayjs(link?.urlExpiry)) ? (
-                <>
-                  <Clock size={12} className="sm:w-4 sm:h-4 text-red-500" />
-                  <span className="ml-2 text-red-500">Expired</span>
-                </>
-              ) : (
-                <>
-                  <Clock size={12} className="sm:w-4 sm:h-4" />
-                  <span className="ml-2 ">Expiring {dayjs(link?.urlExpiry).fromNow()}</span>
-                </>
-              )}
-            </div>
+            {link?.urlExpiry && (
+              <div className='flex justify-center items-center mb-2 md:mb-0 md:ml-10'>
+                {dayjs().isAfter(dayjs(link?.urlExpiry)) ? (
+                  <>
+                    <Clock size={12} className="sm:w-4 sm:h-4 text-red-500" />
+                    <span className="ml-2 text-red-500">Expired</span>
+                  </>
+                ) : (
+                  <>
+                    <Clock size={12} className="sm:w-4 sm:h-4" />
+                    <span className="ml-2 ">Expiring {dayjs(link?.urlExpiry).fromNow()}</span>
+                  </>
+                )}
+              </div>
+            )}
             {link?.isPasswordProtected && (
               <div className='flex justify-center items-center md:ml-10'>
                 <LockIcon size={14} />

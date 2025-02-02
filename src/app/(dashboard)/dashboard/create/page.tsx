@@ -29,10 +29,11 @@ const CreateNewForm = () => {
     const [originalUrl, setOriginalUrl] = useState('');
     const [title, setTitle] = useState('');
     const [customBackHalf, setCustomBackHalf] = useState('');
-    const [customExpiry, setCustomExpiry] = useState<Date | undefined>(undefined);
     const [loading, setLoading] = useState(false);
     const [passwordProtected, setPasswordProtected] = useState(false);
+    const [isUrlExpiry, setIsUrlExpiry] = useState(false);
     const [password, setPassword] = useState('');
+    const [urlExpiryDate, setUrlExpiryDate] = useState<Date | undefined>(undefined);
     const [screenshotUrl, setScreenshotUrl] = useState('');
     const [screenshotUrlMessage, setScreenshotUrlMessage] = useState('');
     const [screenshotUrlLoading, setScreenshotUrlLoading] = useState(false);
@@ -77,9 +78,10 @@ const CreateNewForm = () => {
             originalUrl,
             title,
             urlId: customBackHalf || undefined, // Optional custom back-half
-            urlExpiry: customExpiry || undefined, // Optional custom expiry
+            isUrlExpiry: isUrlExpiry, // Optional custom expiry
             isPasswordProtected: passwordProtected,
             password: passwordProtected ? password : undefined,
+            urlExpiry: isUrlExpiry ? urlExpiryDate : undefined,
         };
 
         console.log(data);
@@ -122,7 +124,10 @@ const CreateNewForm = () => {
                                     <Input
                                         placeholder="https://example.com/my-long-url"
                                         value={originalUrl}
-                                        onChange={(e) => setOriginalUrl(e.target.value)}
+                                        onChange={(e) => {
+                                            setOriginalUrl(e.target.value)
+                                            debounced(e.target.value)
+                                        }}
                                     />
                                     <p className="text-sm text-gray-500 mt-1">You can create a short URL using your long URL</p>
                                 </div>
@@ -161,37 +166,52 @@ const CreateNewForm = () => {
                                         </div>
                                     </div>
                                     <div className="space-y-4 mt-4">
-                                        <div>
-                                            <label className="block mb-2 font-medium">Link Expiry</label>
-                                            <div className="flex space-x-2">
-                                                <Popover>
-                                                    <PopoverTrigger asChild>
-                                                        <Button
-                                                            variant={"outline"}
-                                                            className={cn(
-                                                                "w-[280px] justify-start text-left font-normal",
-                                                                !customExpiry && "text-muted-foreground"
-                                                            )}
-                                                        >
-                                                            <CalendarIcon className="mr-2 h-4 w-4" />
-                                                            {customExpiry ? format(customExpiry, "PPP") : <span>Pick a Expiry date</span>}
-                                                        </Button>
-                                                    </PopoverTrigger>
-                                                    <PopoverContent className="w-auto p-0">
-                                                        <Calendar
-                                                            mode="single"
-                                                            selected={customExpiry}
-                                                            onSelect={setCustomExpiry}
-                                                            disabled={(date) => {
-                                                                const today = new Date();
-                                                                return date <= today;
-                                                            }}
-                                                            initialFocus
-                                                        />
-                                                    </PopoverContent>
-                                                </Popover>
+                                        <h2 className="text-xl font-semibold mb-4">Expiry</h2>
+                                        <div className="space-y-4 mt-4">
+                                            <div>
+                                                <div className="flex items-center space-x-2">
+                                                    <label htmlFor="passwordToggle" className="toggle-label">Add Url Expiry</label>
+                                                    <Switch
+                                                        id="passwordToggle"
+                                                        checked={isUrlExpiry}
+                                                        onCheckedChange={setIsUrlExpiry}
+                                                    />
+                                                </div>
                                             </div>
-                                            <p className="text-sm text-gray-500 mt-1">Once set, it cannot be changed (default is 100 years).</p>
+                                            {isUrlExpiry && (
+                                                <div>
+                                                    <label className="block mb-2 font-medium">Url Expiry</label>
+                                                    <div className="flex space-x-2">
+                                                        <Popover>
+                                                            <PopoverTrigger asChild>
+                                                                <Button
+                                                                    variant={"outline"}
+                                                                    className={cn(
+                                                                        "w-[280px] justify-start text-left font-normal",
+                                                                        !urlExpiryDate && "text-muted-foreground"
+                                                                    )}
+                                                                >
+                                                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                                                    {urlExpiryDate ? format(urlExpiryDate, "PPP") : <span>Pick a Expiry date</span>}
+                                                                </Button>
+                                                            </PopoverTrigger>
+                                                            <PopoverContent className="w-auto p-0">
+                                                                <Calendar
+                                                                    mode="single"
+                                                                    selected={urlExpiryDate}
+                                                                    onSelect={setUrlExpiryDate}
+                                                                    disabled={(date) => {
+                                                                        const today = new Date();
+                                                                        return date <= today;
+                                                                    }}
+                                                                    initialFocus
+                                                                />
+                                                            </PopoverContent>
+                                                        </Popover>
+                                                    </div>
+                                                    <p className="text-sm text-gray-500 mt-1">Once set, it cannot be changed</p>
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
                                     <div className='mt-4'>
@@ -243,7 +263,7 @@ const CreateNewForm = () => {
                                 </div>
                                 <div className="sticky -mt-[13.6rem] ml-[2.5rem] z-100 ">
                                     {screenshotUrlLoading ? (
-                                        <div className="flex justify-center items-center w-[24.5rem] h-[15.8rem] h-60 bg-gray-200 rounded-lg shadow-lg">
+                                        <div className="flex justify-center items-center w-[24.5rem] h-[15.8rem] bg-gray-200 rounded-lg shadow-lg">
                                             <span className="animate-spin border-4 border-blue-500 border-t-transparent rounded-full w-10 h-10"></span>
                                         </div>
                                     ) : screenshotUrl && screenshotUrlMessage === "Got Screenshot" ? (

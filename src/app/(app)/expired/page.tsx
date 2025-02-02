@@ -16,10 +16,10 @@ export default function ExpiredURLPage() {
           <p className="text-center text-gray-600 mb-6">
             The URL you are trying to access has expired.
           </p>
-          <div className="flex items-center justify-center text-sm text-gray-500 mb-6">
+          {/* <div className="flex items-center justify-center text-sm text-gray-500 mb-6">
             <Clock className="w-4 h-4 mr-2" />
             <span>Delete in 24 hours</span>
-          </div>
+          </div> */}
           <div className="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-6" role="alert">
             <p className="font-bold">Contact Information</p>
             <p>Please contact the organization or person who provide you this URL for further assistance.</p>

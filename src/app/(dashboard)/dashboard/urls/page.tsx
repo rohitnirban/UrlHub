@@ -304,19 +304,21 @@ const Page: React.FC = () => {
                                             <CalendarDaysIcon size={12} className="ml-2 sm:ml-0 sm:w-4 sm:h-4" />
                                             <span>{dayjs(link.createdAt).format('D MMM YYYY')}</span>
                                         </div>
-                                        <div className="ml-0 sm:ml-4 flex items-center space-x-2 text-xs sm:text-sm text-gray-700">
-                                            {dayjs().isAfter(dayjs(link.urlExpiry)) ? (
-                                                <>
-                                                    <Clock size={12} className="sm:w-4 sm:h-4 text-red-500" />
-                                                    <span className="ml-2 text-red-500">Expired</span>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <Clock size={12} className="sm:w-4 sm:h-4" />
-                                                    <span className='ml-2 '>Expiring {dayjs(link.urlExpiry).fromNow()}</span>
-                                                </>
-                                            )}
-                                        </div>
+                                        {link.urlExpiry && (
+                                            <div className="ml-0 sm:ml-4 flex items-center space-x-2 text-xs sm:text-sm text-gray-700">
+                                                {dayjs().isAfter(dayjs(link.urlExpiry)) ? (
+                                                    <>
+                                                        <Clock size={12} className="sm:w-4 sm:h-4 text-red-500" />
+                                                        <span className="ml-2 text-red-500">Expired</span>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Clock size={12} className="sm:w-4 sm:h-4" />
+                                                        <span className='ml-2 '>Expiring {dayjs(link.urlExpiry).fromNow()}</span>
+                                                    </>
+                                                )}
+                                            </div>
+                                        )}
                                         {link?.isPasswordProtected && (
                                             <div className="ml-0 sm:ml-4 flex items-center space-x-2 text-xs sm:text-sm text-gray-700">
                                                 <LockIcon size={12} className="sm:w-4 sm:h-4 ml-2 sm:ml-0" />

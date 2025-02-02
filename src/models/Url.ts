@@ -7,8 +7,9 @@ export interface Url extends Document {
     metaImageUrl: string;
     shortUrl: string;
     urlId: string;
-    urlExpiry: Date;
-    isPasswordProtected:boolean;
+    isUrlExpiry: boolean;
+    urlExpiry?: Date;
+    isPasswordProtected: boolean;
     password?: string;
     title: string;
     icon: string;
@@ -60,18 +61,21 @@ const UrlSchema: Schema<Url> = new Schema(
             unique: true,
             maxlength: 12,
         },
-        urlExpiry:{
-            type: Date,
-            required:[true, "Url Expiry is requied"],
-            default: Date.now() + 100 * 365 * 24 * 60 * 60 * 1000 // 100 years from now
-        },
-        isPasswordProtected:{
+        isUrlExpiry: {
             type: Boolean,
             default: false
         },
-        password:{
+        urlExpiry: {
+            type: Date,
+            required: [function (this: Url) { return this.isUrlExpiry; }, "Url Expiry is requied"],
+        },
+        isPasswordProtected: {
+            type: Boolean,
+            default: false
+        },
+        password: {
             type: String,
-            required: [function(this: Url) { return this.isPasswordProtected; }, "Password is required"]
+            required: [function (this: Url) { return this.isPasswordProtected; }, "Password is required"]
         },
         title: {
             type: String,
@@ -118,7 +122,7 @@ const UrlSchema: Schema<Url> = new Schema(
         }
     },
     {
-        timestamps:true
+        timestamps: true
     }
 );
 
