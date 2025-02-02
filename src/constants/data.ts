@@ -29,3 +29,18 @@ export const navItems: NavItem[] = [
     label: 'settings'
   },
 ];
+
+export const adminNavItems: NavItem[] = [
+  {
+    title: 'Users',
+    href: '/admin/users',
+    icon: 'user',
+    label: 'All Users'
+  },
+  {
+    title: 'Urls',
+    href: '/admin/urls',
+    icon: 'url',
+    label: 'All Urls'
+  },
+];

@@ -74,3 +74,19 @@
 
 ### Docs
 - Update README to enhance project overview and feature descriptions
+
+## [2.0.2] - 2025-02-02
+
+### Added
+- Added user activity logs to track actions performed within the application.
+- Implemented a new analytics dashboard with real-time data visualization.
+
+### Changed
+- Improved performance of the URL redirection component.
+- Updated Tailwind CSS to the latest version for better compatibility and new features.
+
+
+### Fixed
+- Resolved an issue where the URL redirection component would occasionally fail.
+- Fixed a bug causing incorrect display of user activity logs.
+- Addressed layout inconsistencies in the analytics dashboard.
