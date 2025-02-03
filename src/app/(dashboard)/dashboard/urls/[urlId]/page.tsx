@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -335,16 +336,13 @@ const Page = () => {
         <Card>
           <CardHeader>
             <CardTitle>Locations</CardTitle>
+            <CardDescription>Location distribution for visitors</CardDescription>
           </CardHeader>
           <CardContent>
-            <Tabs defaultValue="countries">
-              <TabsList>
-                <TabsTrigger value="countries">Countries</TabsTrigger>
-              </TabsList>
-              <TabsContent value="countries">
-                <HorizontalBar clickDetails={link?.clickDetails || []} />
-              </TabsContent>
-            </Tabs>
+
+            <HorizontalBar clickDetails={link?.clickDetails || []} />
+            {/* <HorizontalBar /> */}
+
           </CardContent>
         </Card>
 

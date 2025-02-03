@@ -22,10 +22,9 @@ export async function POST(request: Request) {
         }
 
         const isCodeValid = code === user.verifyCode;
-        const isCodeNotExipred = new Date(user.verifyCodeExpiry) > new Date();
+        const isCodeNotExpired = user.verifyCodeExpiry ? new Date(user.verifyCodeExpiry) > new Date() : false;
 
-
-        if (isCodeValid && isCodeNotExipred) {
+        if (isCodeValid && isCodeNotExpired) {
             user.isVerified = true;
             await user.save();
 
@@ -39,7 +38,7 @@ export async function POST(request: Request) {
                 }
             )
         }
-        else if (!isCodeNotExipred) {
+        else if (!isCodeNotExpired) {
             return handleError("Verification Code Expired. Please register again to get new code", 400)
         }
         else {

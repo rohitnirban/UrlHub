@@ -98,6 +98,11 @@
 
 ## [2.0.3] - 2025-03-02
 
+### Added
+- Integrate Google authentication and enhance user model for Google users
+
 ### Fixed
 - Enhance URL management by adding createdAt field
 - Fixed expiry handling
+- Update error handling and improve user experience
+

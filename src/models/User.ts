@@ -10,15 +10,17 @@ export interface User extends Document {
     name: string;
     username: string;
     email: string;
-    password: string;
-    verifyCode: string;
-    verifyCodeExpiry: Date;
+    password?: string;
+    verifyCode?: string;
+    verifyCodeExpiry?: Date;
     isVerified: boolean;
     isSubscribed: boolean;
     role: string;
     subscription: Subscription[];
-    passwordResetToken?: string; // Optional since it may not always exist
-    passwordResetTokenExpiry?: Date; // Optional since it may not always exist
+    passwordResetToken?: string;
+    passwordResetTokenExpiry?: Date;
+    googleId?: string;
+    isGoogleUser: boolean;
 }
 
 const UserSchema: Schema<User> = new Schema(
@@ -42,15 +44,21 @@ const UserSchema: Schema<User> = new Schema(
         },
         password: {
             type: String,
-            required: [true, "Password is required"],
+            required: [function (this: User) {
+                return !this.isGoogleUser;
+            }, "Password is required"],
         },
         verifyCode: {
             type: String,
-            required: [true, "Verification code is required"],
+            required: [function (this: User) {
+                return !this.isGoogleUser;
+            }, "Verification code is required"],
         },
         verifyCodeExpiry: {
             type: Date,
-            required: [true, "Verification code expiry is required"],
+            required: [function (this: User) {
+                return !this.isGoogleUser;
+            }, "Verification code expiry is required"],
         },
         isVerified: {
             type: Boolean,
@@ -82,6 +90,14 @@ const UserSchema: Schema<User> = new Schema(
         passwordResetTokenExpiry: {
             type: Date,
             default: null,
+        },
+        googleId: {
+            type: String,
+            default: null,
+        },
+        isGoogleUser: {
+            type: Boolean,
+            default: false,
         },
     },
     {

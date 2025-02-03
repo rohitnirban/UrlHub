@@ -15,6 +15,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
+import GoogleSignInButton from "@/components/google-signin-button"
 
 const Page = () => {
     const [username, setUsername] = useState('');
@@ -86,7 +87,7 @@ const Page = () => {
     }
 
     return (
-        <div className="flex w-[95%] max-w-4xl p-8 bg-white rounded-lg shadow-md space-x-0 md:space-x-8">
+        <div className="flex w-[95%]  my-6 max-w-4xl p-8 bg-white rounded-lg shadow-md space-x-0 md:space-x-8">
             <div className="w-1/2 hidden md:flex justify-center items-center">
                 <img
                     src="/login.png"
@@ -96,7 +97,7 @@ const Page = () => {
             </div>
             <div className="w-full md:w-1/2">
                 <div className="text-center">
-                    <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
+                    <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-4">
                         Join UrlHub
                     </h1>
                     <p className="mb-4">Register to start your adventure</p>
@@ -206,6 +207,12 @@ const Page = () => {
                             Login
                         </Link>
                     </p>
+                </div>
+                <div className='my-4 text-center'>
+                    OR
+                </div>
+                <div className="text-center flex justify-center items-center mt-4">
+                    <GoogleSignInButton />
                 </div>
             </div>
         </div>

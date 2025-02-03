@@ -20,7 +20,7 @@ interface Statistics {
 
 export async function POST(request: Request) {
     await dbConnect();
-
+    
     try {
         const { ipAddress, userAgent, urlId } = await request.json();
 

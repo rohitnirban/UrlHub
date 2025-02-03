@@ -19,7 +19,9 @@ export async function POST(request: Request) {
     await dbConnect();
 
     const session = await getServerSession(authOptions);
+    console.log("session :",session);
     const _user: User = session?.user;
+    console.log("_user :",_user);
 
     if (!session || !_user) {
         return Response.json(
@@ -51,7 +53,7 @@ export async function POST(request: Request) {
         const urlExists = await UrlModel.findOne({ originalUrl: strippedOriginalUrl })
 
         if (urlExists) {
-            return handleError("URL already exists", 400);
+            return handleError("Destination URL already exists, try changing it", 400);
         }
 
         if(isUrlExpiry && !urlExpiry) {
@@ -70,8 +72,9 @@ export async function POST(request: Request) {
             return handleError("Password must be at least 5 characters long", 400);
         }
 
+        console.log("User ID : ", userId);
         const user = await UserModel.findById(userId);
-
+        console.log("User : ", user);
         if (!user) {
             return handleError("User not found", 404);
         }

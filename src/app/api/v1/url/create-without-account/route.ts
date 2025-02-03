@@ -26,7 +26,7 @@ export async function POST(request: Request) {
         const url = await FreeUrlModel.findOne({ originalUrl });
 
         if (url) {
-            return handleError("URL already exists", 400);
+            return handleError("Destination URL already exists, try changing it", 400);
         }
 
         const shortId = generateShortId.toLowerCase();

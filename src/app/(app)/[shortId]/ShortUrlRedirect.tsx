@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Loader2 } from 'lucide-react';
@@ -11,21 +11,6 @@ interface Props {
     };
 }
 
-interface UrlData {
-    originalUrl: string;
-    shortUrl: string;
-    urlId: string;
-    urlExpiry: Date;
-    isPasswordProtected: boolean;
-    password?: string;
-    metaDescription?: string;
-    metaImageUrl?: string;
-    title?: string;
-    icon?: string;
-    isFree?: boolean;
-}
-
-// Fun facts array
 const facts = [
     'Did you know? The first URL was created by Tim Berners-Lee in 1991.',
     'Fun fact: Over 4.6 billion people use the internet, each accessing millions of URLs daily!',
@@ -37,132 +22,78 @@ const facts = [
     'Short URLs can help improve click-through rates by making links more attractive.',
     'Some URL shorteners offer analytics to track the performance of your links.',
     'The first ever registered domain name was symbolics.com, registered on March 15, 1985.',
-    'There are over 1.7 billion websites on the internet today.',
-    'The .com domain extension stands for "commercial" and is the most popular top-level domain.',
-    'The internet was originally called ARPANET and was developed by the U.S. Department of Defense.',
-    'The first search engine was called Archie, created in 1990.',
-    'The term "surfing the internet" was coined by a librarian named Jean Armour Polly in 1992.',
-    'The first email was sent by Ray Tomlinson to himself in 1971.',
-    'The first webcam was used to monitor a coffee pot at the University of Cambridge.',
-    'The first video ever uploaded to YouTube was titled "Me at the zoo" by co-founder Jawed Karim.',
-    'The term "spam" for unsolicited emails comes from a Monty Python sketch.',
-    'The first tweet was sent by Jack Dorsey on March 21, 2006, and read "just setting up my twttr".',
-    'The first website is still online and can be visited at info.cern.ch.',
-    'The first online purchase was a Sting CD sold by NetMarket in 1994.',
-    'The first banner ad appeared on HotWired.com in 1994 and had a 44% click-through rate.',
-    'The first domain name ever registered was symbolics.com on March 15, 1985.',
-    'The first search engine was called "Archie," created in 1990 by Alan Emtage.'
 ];
 
 export default function ShortUrlRedirect({ params }: Props) {
     const router = useRouter();
     const { shortId } = params;
-
     const [isLoading, setIsLoading] = useState(true);
-    const [fact, setFact] = useState<string>(
-        facts[Math.floor(Math.random() * facts.length)]
-    );
+    const hasFetched = useRef(false); // Prevent duplicate calls
+
+    // Memoize the fact to avoid re-calculating on every render
+    const fact = useMemo(() => facts[Math.floor(Math.random() * facts.length)], []);
 
     useEffect(() => {
-        let isMounted = true;
-
+        if (hasFetched.current) return; // Prevent duplicate execution
+        hasFetched.current = true;
 
         async function fetchUrl() {
             try {
-                const response = await axios.get(`/api/v1/url/${shortId}`);
+                // Fetch URL and IP info in parallel
+                const [urlResponse, ipResponse] = await axios.all([
+                    axios.get(`/api/v1/url/${shortId}`),
+                    axios.get(`https://ipinfo.io/json?token=${process.env.NEXT_PUBLIC_IPINFO_TOKEN}`)
+                ]);
 
-                if (response.status !== 200 || !response.data?.originalUrl) {
-                    router.push('/404');
+                const urlData = urlResponse.data;
+                if (!urlData?.originalUrl) {
+                    router.replace('/404');
                     return;
                 }
-
-                const urlData: UrlData = response.data;
 
                 if (urlData.isFree) {
-                    // router.push(urlData.originalUrl);
-                    window.location.href = urlData.originalUrl;
+                    router.push(urlData.originalUrl); // Redirect using Next.js router
                     return;
                 }
 
-                if (!urlData.isFree) {
-                    if (urlData.urlExpiry !== null) {
-                        const currentDate = new Date();
-                        const urlExpiryDate = new Date(urlData.urlExpiry);
-                        if (currentDate > urlExpiryDate) {
-                            router.push('/expired');
-                            return;
-                        }
+                // Check if URL is expired
+                if (!urlData.isFree && urlData.urlExpiry) {
+                    if (new Date() > new Date(urlData.urlExpiry)) {
+                        router.replace('/expired');
+                        return;
                     }
                 }
 
+                // Handle password protection
                 if (urlData.isPasswordProtected) {
-                    router.push(`/password/${shortId}`);
+                    router.replace(`/password/${shortId}`);
                     return;
                 }
 
+                await axios.post('/api/v1/url/update-statistics', {
+                    ipAddress: ipResponse.data.ip,
+                    userAgent: navigator.userAgent,
+                    urlId: shortId,
+                });
 
-                const ipResponse = await axios.get(
-                    `https://ipinfo.io/json?token=${process.env.NEXT_PUBLIC_IPINFO_TOKEN}`
-                );
-                const ipAddress = ipResponse.data.ip;
-
-                await axios.post(
-                    '/api/v1/url/update-statistics',
-                    {
-                        ipAddress,
-                        userAgent: navigator.userAgent,
-                        urlId: shortId,
-                    },
-                    {
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                    }
-                );
-
-                setTimeout(() => {
-                    if (isMounted) {
-                        router.push(urlData.originalUrl);
-                    }
-                }, 1000);
-
-
-                if (!isMounted) return;
+                // Redirect immediately after analytics update
+                router.push(urlData.originalUrl); // Use Next.js router for redirection
             } catch (error) {
                 console.error('Error fetching URL data:', error);
-                if (isMounted) {
-                    router.push('/500');
-                }
+                router.replace('/500');
             } finally {
-                if (isMounted) {
-                    setIsLoading(false);
-                }
+                setIsLoading(false); // Stop loading once everything is done
             }
         }
 
         fetchUrl();
 
-        return () => {
-            isMounted = false;
-        };
     }, [shortId, router]);
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setFact(facts[Math.floor(Math.random() * facts.length)]);
-        }, 5000);
-
-        return () => clearInterval(interval);
-    }, []);
-
-    return (
-        <>
-            {isLoading && (
-                <div className="flex flex-col justify-center items-center h-screen text-center">
-                    <Loader2 className="animate-spin mb-4" size={50} />
-                    <p className="text-lg text-black">{fact}</p>
-                </div>
-            )}
-        </>
-    );
+    return isLoading ? (
+        <div className="flex flex-col justify-center items-center h-screen text-center">
+            <Loader2 className="animate-spin mb-4" size={50} />
+            <p className="text-lg text-black">{fact}</p>
+        </div>
+    ) : null;
 }

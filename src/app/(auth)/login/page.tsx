@@ -1,8 +1,10 @@
 "use client"
 
+import GoogleSignInButton from '@/components/google-signin-button';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/components/ui/use-toast';
 import { signInSchema } from '@/schemas/signInSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -78,7 +80,7 @@ const Page = () => {
             {/* Right Section: Login Form */}
             <div className="w-full md:w-1/2">
                 <div className="text-center">
-                    <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
+                    <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-4">
                         Welcome 👋
                     </h1>
                     <p className="mb-4">Login to continue your adventure</p>
@@ -156,6 +158,12 @@ const Page = () => {
                             Register
                         </Link>
                     </p>
+                </div>
+                <div className='my-4 text-center'>
+                    OR
+                </div>
+                <div className="text-center flex justify-center items-center mt-4">
+                    <GoogleSignInButton />
                 </div>
             </div>
         </div>
