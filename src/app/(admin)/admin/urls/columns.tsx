@@ -22,6 +22,7 @@ export type Url = {
     _id: string
     originalUrl: string
     urlId: string
+    isUrlExpiry: true | false
     urlExpiry: string
     isPasswordProtected: true | false
     totalClicks: number
@@ -107,7 +108,6 @@ export const columns: ColumnDef<Url>[] = [
             </span>
         ),
     },
-
     {
         accessorKey: "urlExpiry",
         header: ({ column }) => {
@@ -122,32 +122,40 @@ export const columns: ColumnDef<Url>[] = [
             )
         },
         cell: ({ row }) => {
-            const expiryDate = dayjs(row.original.urlExpiry);
-            const now = dayjs();
-            const yearsRemaining = expiryDate.diff(now, 'year');
-            const monthsRemaining = expiryDate.diff(now, 'month') % 12;
-            const weeksRemaining = expiryDate.diff(now, 'week') % 4;
-            const daysRemaining = expiryDate.diff(now, 'day') % 7;
+            if (!row.original.isUrlExpiry) {
+                const expiryDate = dayjs(row.original.urlExpiry);
+                const now = dayjs();
+                const yearsRemaining = expiryDate.diff(now, 'year');
+                const monthsRemaining = expiryDate.diff(now, 'month') % 12;
+                const weeksRemaining = expiryDate.diff(now, 'week') % 4;
+                const daysRemaining = expiryDate.diff(now, 'day') % 7;
 
-            let remainingTime = '';
-            if (yearsRemaining > 0) {
-                remainingTime = `${yearsRemaining} Year${yearsRemaining > 1 ? 's' : ''} Remaining`;
-            } else if (monthsRemaining > 0) {
-                remainingTime = `${monthsRemaining} Month${monthsRemaining > 1 ? 's' : ''} Remaining`;
-            } else if (weeksRemaining > 0) {
-                remainingTime = `${weeksRemaining} Week${weeksRemaining > 1 ? 's' : ''} Remaining`;
-            } else if (daysRemaining > 0) {
-                remainingTime = `${daysRemaining} Day${daysRemaining > 1 ? 's' : ''} Remaining`;
+                let remainingTime = '';
+                if (yearsRemaining > 0) {
+                    remainingTime = `${yearsRemaining} Year${yearsRemaining > 1 ? 's' : ''} Remaining`;
+                } else if (monthsRemaining > 0) {
+                    remainingTime = `${monthsRemaining} Month${monthsRemaining > 1 ? 's' : ''} Remaining`;
+                } else if (weeksRemaining > 0) {
+                    remainingTime = `${weeksRemaining} Week${weeksRemaining > 1 ? 's' : ''} Remaining`;
+                } else if (daysRemaining > 0) {
+                    remainingTime = `${daysRemaining} Day${daysRemaining > 1 ? 's' : ''} Remaining`;
+                } else {
+                    remainingTime = 'Expired';
+                }
+
+                return (
+                    <span>
+                        {remainingTime}
+                    </span>
+                );
             } else {
-                remainingTime = 'Expired';
+                return (
+                    <span>
+                        Never
+                    </span>
+                );
             }
-
-            return (
-                <span>
-                    {remainingTime}
-                </span>
-            );
-        },
+        }
     },
     {
         accessorKey: "totalClicks",
