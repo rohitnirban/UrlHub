@@ -14,6 +14,7 @@ import {
 import { ArrowUpDown } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import dayjs from "dayjs"
+import { useRouter } from "next/navigation"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -24,7 +25,9 @@ export type Url = {
     urlExpiry: string
     isPasswordProtected: true | false
     totalClicks: number
+    createdAt: Date
 }
+
 
 export const columns: ColumnDef<Url>[] = [
     {
@@ -91,9 +94,26 @@ export const columns: ColumnDef<Url>[] = [
             const expiryDate = dayjs(row.original.urlExpiry);
             const now = dayjs();
             const yearsRemaining = expiryDate.diff(now, 'year');
+            const monthsRemaining = expiryDate.diff(now, 'month') % 12;
+            const weeksRemaining = expiryDate.diff(now, 'week') % 4;
+            const daysRemaining = expiryDate.diff(now, 'day') % 7;
+
+            let remainingTime = '';
+            if (yearsRemaining > 0) {
+                remainingTime = `${yearsRemaining} Year${yearsRemaining > 1 ? 's' : ''} Remaining`;
+            } else if (monthsRemaining > 0) {
+                remainingTime = `${monthsRemaining} Month${monthsRemaining > 1 ? 's' : ''} Remaining`;
+            } else if (weeksRemaining > 0) {
+                remainingTime = `${weeksRemaining} Week${weeksRemaining > 1 ? 's' : ''} Remaining`;
+            } else if (daysRemaining > 0) {
+                remainingTime = `${daysRemaining} Day${daysRemaining > 1 ? 's' : ''} Remaining`;
+            } else {
+                remainingTime = 'Expired';
+            }
+
             return (
                 <span>
-                    {yearsRemaining > 0 ? `${yearsRemaining} Years Remaining` : "Expired"}
+                    {remainingTime}
                 </span>
             );
         },
@@ -134,10 +154,32 @@ export const columns: ColumnDef<Url>[] = [
         },
     },
     {
+        accessorKey: "createdAt",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Created At
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
+        cell: ({ row }) => {
+            const createdAt = dayjs(row.original.createdAt).format('MM-DD-YYYY [at] HH:mm');
+            return (
+                <span>
+                    {createdAt}
+                </span>
+            );
+        },
+    },
+    {
         id: "actions",
         cell: ({ row }) => {
             const url = row.original
-
+            const router = useRouter();
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -153,8 +195,11 @@ export const columns: ColumnDef<Url>[] = [
                         >
                             Copy Url ID
                         </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>View Url details</DropdownMenuItem>
+                        <DropdownMenuItem
+                            onClick={() => router.push(`/admin/urls/${url.urlId}`)}
+                        >
+                            View Url details
+                        </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )

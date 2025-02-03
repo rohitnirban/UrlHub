@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ArrowUpDown } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
+import dayjs from "dayjs"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -22,6 +23,7 @@ export type User = {
     username: string
     email: string
     role: "user" | "admin"
+    createdAt: Date
 }
 
 export const columns: ColumnDef<User>[] = [
@@ -91,6 +93,28 @@ export const columns: ColumnDef<User>[] = [
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
+        },
+    },
+    {
+        accessorKey: "createdAt",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Created At
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
+        cell: ({ row }) => {
+            const createdAt = dayjs(row.original.createdAt).format('MM-DD-YYYY [at] HH:mm');
+            return (
+                <span>
+                    {createdAt}
+                </span>
+            );
         },
     },
     {

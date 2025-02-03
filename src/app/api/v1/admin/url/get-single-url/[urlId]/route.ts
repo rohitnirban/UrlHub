@@ -7,8 +7,13 @@ import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 import { User } from 'next-auth';
 
-export async function GET(request: Request) {
+export async function GET(
+    request: Request,
+    { params }: { params: { urlId: string } }
+) {
     await dbConnect();
+
+    const urlID = params.urlId;
 
     const session = await getServerSession(authOptions);
     const _user: User = session?.user;
@@ -34,19 +39,16 @@ export async function GET(request: Request) {
             return handleError("Unauthorized", 401);
         }
 
-        const { singleUrlId } = await request.json();
+        const url = await UrlModel.findOne({ urlId: urlID });
 
-        const urlFromDB = await UrlModel.findById(singleUrlId);
-
-        if (!urlFromDB) {
+        if (!url) {
             return handleError("No url found", 404);
         }
 
         return Response.json(
             {
                 success: true,
-                message: "Url found successfully",
-                urlFromDB
+                data: url
             },
             {
                 status: 200
@@ -54,8 +56,8 @@ export async function GET(request: Request) {
         );
 
     } catch (error) {
-        console.log("Error get all url");
-        return handleError("Error get all url", 500);
+        console.log("Error get single url");
+        return handleError("Error get single url", 500);
     }
 
 }

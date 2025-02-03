@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { ArrowUpDown } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
+import dayjs from "dayjs"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -20,6 +21,7 @@ export type Url = {
     _id: string
     originalUrl: string
     urlId: string
+    createdAt: Date
 }
 
 export const columns: ColumnDef<Url>[] = [
@@ -70,6 +72,28 @@ export const columns: ColumnDef<Url>[] = [
         ),
     },
     {
+        accessorKey: "createdAt",
+        header: ({ column }) => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                >
+                    Created At
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            )
+        },
+        cell: ({ row }) => {
+            const createdAt = dayjs(row.original.createdAt).format('MM-DD-YYYY [at] HH:mm');
+            return (
+                <span>
+                    {createdAt}
+                </span>
+            );
+        },
+    },
+    {
         id: "actions",
         cell: ({ row }) => {
             const url = row.original
@@ -89,8 +113,6 @@ export const columns: ColumnDef<Url>[] = [
                         >
                             Copy Url ID
                         </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem>View Url details</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )

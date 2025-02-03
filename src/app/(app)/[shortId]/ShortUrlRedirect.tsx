@@ -85,11 +85,13 @@ export default function ShortUrlRedirect({ params }: Props) {
                 }
 
                 if (!urlData.isFree) {
-                    const currentDate = new Date();
-                    const urlExpiryDate = new Date(urlData.urlExpiry);
-                    if (currentDate > urlExpiryDate) {
-                        router.push('/expired');
-                        return;
+                    if (urlData.urlExpiry !== null) {
+                        const currentDate = new Date();
+                        const urlExpiryDate = new Date(urlData.urlExpiry);
+                        if (currentDate > urlExpiryDate) {
+                            router.push('/expired');
+                            return;
+                        }
                     }
                 }
 

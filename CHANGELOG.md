@@ -95,3 +95,9 @@
 - Addressed layout inconsistencies in the analytics dashboard.
 - Enhance middleware for admin routing
 - Improve expiry handling in UI
+
+## [2.0.3] - 2025-03-02
+
+### Fixed
+- Enhance URL management by adding createdAt field
+- Fixed expiry handling
