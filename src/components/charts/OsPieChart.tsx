@@ -1,8 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { TrendingUp } from "lucide-react";
-import { Label, Pie, PieChart } from "recharts";
+import { Label, Pie, PieChart, Legend } from "recharts";
 
 import {
   Card,
@@ -132,6 +131,12 @@ export function OsPieChart({ clickDetails }: OsPieChartProps) {
                 }}
               />
             </Pie>
+            <Legend
+              formatter={(value, entry) => {
+                const payload = entry.payload as unknown as { visitors: number };
+                return payload ? `${value} ${payload.visitors}` : value;
+              }}
+            />
           </PieChart>
         </ChartContainer>
       </CardContent>

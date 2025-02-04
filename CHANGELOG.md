@@ -106,3 +106,5 @@
 - Fixed expiry handling
 - Update error handling and improve user experience
 
+### Changed
+- Add Legend component to BrowserPieChart and OsPieChart for enhanced data visualization
