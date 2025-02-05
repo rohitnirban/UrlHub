@@ -4,7 +4,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     return [
         {
             url: 'https://urhb.in/',
-            lastModified: new Date('2024-12-18T23:18:25+00:00'),
+            lastModified: new Date('2025-01-29T00:00:00+00:00'),
             changeFrequency: 'weekly',
             priority: 1.00,
         },
@@ -50,7 +50,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
 export const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "name":"UrlHub",
     "url": "https://urhb.in/",
+    "description": "Best free URL shortener to shorten, track, and manage links.",
     "potentialAction": [
         {
             "@type": "ViewAction",

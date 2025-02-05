@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/tooltip"
 import { Separator } from '../ui/separator'
 import { useDebounceCallback } from 'usehooks-ts'
+import Link from 'next/link'
 
 
 export function ShortLongUrl() {
@@ -224,9 +225,11 @@ export function ShortLongUrl() {
                   <span className="text-xl font-bold">
                     Short URL
                   </span>
-                  <span className="text-blue-600 font-medium">
-                    {shortUrl}
-                  </span>
+                  <Link href={shortUrl} target='_blank'>
+                    <span className="text-blue-600 font-medium">
+                      {shortUrl}
+                    </span>
+                  </Link>
                   <Button onClick={handleCopy} className="ml-4">
                     <ClipboardCopy className="mr-2" />
                     Copy

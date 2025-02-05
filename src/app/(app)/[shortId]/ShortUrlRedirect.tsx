@@ -52,7 +52,7 @@ export default function ShortUrlRedirect({ params }: Props) {
                 }
 
                 if (urlData.isFree) {
-                    router.push(urlData.originalUrl); // Redirect using Next.js router
+                    window.location.href  = urlData.originalUrl; // Redirect using Next.js router
                     return;
                 }
 
