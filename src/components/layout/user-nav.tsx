@@ -51,8 +51,8 @@ export function UserNav() {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout}>
-          <span className="cursor-pointer">Log out</span>
+        <DropdownMenuItem onClick={handleLogout} className='cursor-pointer'>
+          Log out
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
